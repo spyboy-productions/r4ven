@@ -21,10 +21,6 @@ function getLocation() {
   }
 }
 
-function ip_callback() {
-    $.get("getip.php",function(data){ return data; }
-}
-
 function showPosition(position) {
   var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent);
   
