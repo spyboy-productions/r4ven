@@ -1,7 +1,7 @@
 <?php
 
 $url = "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY";
-$headers = [ 'Content-Type: application/json; charset=utf-8' ];
+$headers = ['Content-Type: application/json; charset=utf-8'];
 $POST = [ 'username' => 'Testing BOT', 'content' => $_SERVER["REMOTE_ADDR"]];
 
 $ch = curl_init();
