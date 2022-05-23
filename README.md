@@ -1,9 +1,5 @@
-__________    _________   _______________ _______   
-\______   \  /  |  \   \ /   /\_   _____/ \      \  
- |       _/ /   |  |\   Y   /  |    __)_  /   |   \ 
- |    |   \/    ^   /\     /   |        \/    |    \
- |____|_  /\____   |  \___/   /_______  /\____|__  /
-        \/      |__|                  \/         \/ 
+<img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
+                                
 
 Track user ip and gps location.
 
