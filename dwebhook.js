@@ -1,1 +1,0 @@
-var discord = {webhook : "https://discord.com/api/webhooks/978349733632430080/zSLh9sJHy0c9pUJfNJRW9m3WC7fcpP_AJiB9BfD6cgnvBv9kM9OqgHZUljfEP_EzJY08",};
