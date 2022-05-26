@@ -9,7 +9,7 @@ This tool is a Proof of Concept and is for Educational Purposes Only. it shows w
 ---
 
 ```
-git clone https://github.com/thisisshubhamkumar/r4ven
+git clone https://github.com/spyboy-productions/r4ven.git
 cd r4ven
 python3 r4ven.py
 ```
