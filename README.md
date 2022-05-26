@@ -5,14 +5,23 @@ Track User's Smartphone/Pc IP And GPS Location.
 
 This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
 
+- OS compatibility (or supported operating systems): `Linux, Mac, Windows, Android(Termux)`
+
+- Requirements: `python, git`
+
 ### Installation
 ---
 
 ```
 git clone https://github.com/spyboy-productions/r4ven.git
+```
+```
 cd r4ven
+```
+```
 python3 r4ven.py
 ```
+
 ```enter your discord webhook url (setup a channel in your discord server with webhook integration)```
 
 https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
