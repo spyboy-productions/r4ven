@@ -24,7 +24,7 @@ Track info data will be sent to your discord webhook channel.
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8080 ssh.localhost.run
 
-### Demo
+### Snapshots
 ---
 
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979512791180390460/Screen_Shot_2022-05-27_at_3.39.33_AM.png" />
