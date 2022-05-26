@@ -1,9 +1,9 @@
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
                                 
 
-Track user IP and GPS location.
+Track User's Smartphone/Pc IP And GPS Location.
 
-This tool is a Proof of Concept and is for Educational Purposes Only.
+This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
 
 ### Installation
 ---
