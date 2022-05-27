@@ -1,7 +1,7 @@
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
                                 
 
-Track User's Smartphone/Pc IP And GPS Location.
+### Track User's Smartphone/Pc IP And GPS Location.
 
 This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
 
@@ -9,7 +9,7 @@ This tool is a Proof of Concept and is for Educational Purposes Only. it shows w
 
 - Requirements: `python, git`
 
-### Installation
+### ⭔ Installation
 ---
 
 ```
@@ -28,17 +28,17 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 _Track info data will be sent to your discord webhook channel._
 
-#### To chnage website template
+#### ⭓ To chnage website template
 
 - open file `index.html` on line 12 replace the `src` in iframe. (Note: not every website support iframe)
 
 
-#### To port forward install ngrok or use ssh
+#### ⭓ To port forward install ngrok or use ssh
 
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
 
-### Snapshots
+### ⭔ Snapshots
 ---
 
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979512791180390460/Screen_Shot_2022-05-27_at_3.39.33_AM.png" />
