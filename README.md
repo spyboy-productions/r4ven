@@ -22,17 +22,17 @@ cd r4ven
 python3 r4ven.py
 ```
 
-```enter your discord webhook url (setup a channel in your discord server with webhook integration)```
+```enter your discord webhook url (set up a channel in your discord server with webhook integration)```
 
 https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 📍 _Track info data will be sent to your discord webhook channel._
 
-- why discord webhook? It’s convenient you will automatically receive notification when someone click on link.
+- why discord webhook? Conveniently, you will automatically receive a notification when someone clicks on the link.
 
 #### ⭓ To chnage website template
 
-- open file `index.html` on line 12 replace the `src` in iframe. (Note: not every website support iframe)
+- open file `index.html` on line 12 and replace the `src` in the iframe. (Note: not every website support iframe)
 
 
 #### ⭓ To port forward install ngrok or use ssh
