@@ -28,12 +28,12 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 _Track info data will be sent to your discord webhook channel._
 
-### To chnage website template
+#### To chnage website template
 
 - open file `index.html` on line 12 replace the `URL` in iframe
 
 
-### To port forward install ngrok or use ssh
+#### To port forward install ngrok or use ssh
 
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
