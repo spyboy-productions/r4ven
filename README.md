@@ -30,7 +30,7 @@ _Track info data will be sent to your discord webhook channel._
 
 #### To chnage website template
 
-- open file `index.html` on line 12 replace the `src` in iframe
+- open file `index.html` on line 12 replace the `src` in iframe. (Note: not every website support iframe)
 
 
 #### To port forward install ngrok or use ssh
