@@ -38,6 +38,9 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
 
+#### 💬 If having issue [Chat here](https://discord.gg/ZChEmMwE8d)
+[![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
+
 ### ⭔ Snapshots
 ---
 
