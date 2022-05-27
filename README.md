@@ -28,7 +28,7 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 📍 _Track info data will be sent to your discord webhook channel._
 
-- why discord webhook? Conveniently, you will automatically receive a notification when someone clicks on the link.
+- why discord webhook? Conveniently, you will receive a notification when someone clicks on the link.
 
 #### ⭓ To chnage website template
 
