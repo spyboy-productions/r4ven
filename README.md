@@ -28,6 +28,8 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 📍 _Track info data will be sent to your discord webhook channel._
 
+- why discord webhook? It’s convenient you will automatically receive notification when someone click on link.
+
 #### ⭓ To chnage website template
 
 - open file `index.html` on line 12 replace the `src` in iframe. (Note: not every website support iframe)
