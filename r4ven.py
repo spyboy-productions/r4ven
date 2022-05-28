@@ -32,6 +32,11 @@ print(f'{G} ╰➤ {C}Discord      : {W}{discord}')
 print(f'{G} ╰➤ {C}Website      : {W}{website}')
 print(f'{G} ╰➤ {C}Blog         : {W}{blog}\n')
 
+try:
+    os.system("rm dwebhook.js")
+except:
+    pass
+
 print(f'Enter Discord Webhoook url:')
 input1 = input()
 
@@ -43,7 +48,7 @@ end = '",};'
 
 wh = f"{bef}{aft}{end}"
 
-os.system("rm dwebhook.js")
+#os.system("rm dwebhook.js")
 file1 = open('dwebhook.js', 'a')
 
 file1.write(wh)
