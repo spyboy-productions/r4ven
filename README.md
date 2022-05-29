@@ -81,19 +81,26 @@ python3 r4ven.py
 
 https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
+---
+
 📍 _Track info data will be sent to your discord webhook channel._
 
 - why discord webhook? Conveniently, you will receive a notification when someone clicks on the link.
+
+---
 
 #### ⭓ To chnage website template
 
 - open file `index.html` on line 12 and replace the `src` in the iframe. (Note: not every website support iframe)
 
+---
 
 #### ⭓ To port forward install ngrok or use ssh
 
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
+
+---
 
 #### 💬 If having issue [Chat here](https://discord.gg/ZChEmMwE8d)
 [![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
