@@ -2,7 +2,13 @@
 
 <h4 align="center"> Track User's Smartphone/Pc Ip And Gps Location. </h4>
 
-This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
+The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the location of the target alongwith...
+
+- Gps location(latitude and longitude)
+- IP Address
+- Device Information 
+
+This tool is a Proof of Concept and is for Educational Purposes Only. it shows what info a malicious website can fetch about you and your devices and why you should not click on random links and allow permissions such as Location.
 
 <h4 align="center">
   OS compatibility :
