@@ -61,6 +61,7 @@ Requirements:
 <br><br>
 <img src="https://img.shields.io/badge/Python-05122A?style=for-the-badge&logo=python">
 <img src="https://img.shields.io/badge/Git-05122A?style=for-the-badge&logo=git">
+<img src="https://img.shields.io/badge/Discord webhook-05122A?style=for-the-badge&logo=discord">
 </h4>
 
 ### ⭔ Installation
