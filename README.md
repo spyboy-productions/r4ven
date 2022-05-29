@@ -12,7 +12,7 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 
 Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
 
-### Limitations
+### Limitation
 ---
 
 - Once location permission is granted, accurate location information is recieved to within 20 to 30 meters of the user's location. 
