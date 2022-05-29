@@ -8,7 +8,7 @@ discord = 'https://spyboy.in/Discord'
 website = 'https://spyboy.in/'
 blog = 'https://spyboy.blog/'
 
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 
 R = '\033[31m'
 G = '\033[32m'
@@ -48,7 +48,6 @@ end = '",};'
 
 wh = f"{bef}{aft}{end}"
 
-#os.system("rm dwebhook.js")
 file1 = open('dwebhook.js', 'a')
 
 file1.write(wh)
