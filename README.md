@@ -81,6 +81,10 @@ python3 r4ven.py
 
 https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
+`if not have discord account and sever make one, it's free.`
+
+https://discord.com/
+
 ---
 
 📍 _Track info data will be sent to your discord webhook channel._
