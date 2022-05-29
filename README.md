@@ -10,7 +10,7 @@ This tool is a Proof of Concept and is for Educational Purposes Only. it shows w
   <img src="https://img.shields.io/badge/Windows-05122A?style=for-the-badge&logo=windows">
   <img src="https://img.shields.io/badge/Linux-05122A?style=for-the-badge&logo=linux">
   <img src="https://img.shields.io/badge/Android-05122A?style=for-the-badge&logo=android">
-  <img src="https://img.shields.io/badge/MacOs-05122A?style=for-the-badge&logo=mac">
+  <img src="https://img.shields.io/badge/macOS-05122A?style=for-the-badge&logo=macos">
 </h4>
 
 <h4 align="center"> 
