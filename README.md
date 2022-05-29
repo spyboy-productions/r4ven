@@ -60,6 +60,7 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979512791180390460/Screen_Shot_2022-05-27_at_3.39.33_AM.png" />
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979508653205913650/Screen_Shot_2022-05-27_at_3.40.19_AM.png" />
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/980448995958722650/Screen_Shot_2022-05-29_at_5.55.48_PM.png" />
+<img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/980449483684982834/Screen_Shot_2022-05-29_at_6.05.44_PM.png" />
 
 
 
