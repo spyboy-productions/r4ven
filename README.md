@@ -1,13 +1,24 @@
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
-                                
 
-### Track User's Smartphone/Pc IP And GPS Location.
+<h4 align="center"> Track User's Smartphone/Pc Ip And Gps Location. </h4>
 
 This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
 
-- OS compatibility (or supported operating systems): `Linux, Mac, Windows, Android(Termux)`
+<h4 align="center">
+  OS compatibility :
+  <br><br>
+  <img src="https://img.shields.io/badge/Windows-05122A?style=for-the-badge&logo=windows">
+  <img src="https://img.shields.io/badge/Linux-05122A?style=for-the-badge&logo=linux">
+  <img src="https://img.shields.io/badge/Android-05122A?style=for-the-badge&logo=android">
+  <img src="https://img.shields.io/badge/macOS-05122A?style=for-the-badge&logo=macos">
+</h4>
 
-- Requirements: `python, git`
+<h4 align="center"> 
+Requirements:
+<br><br>
+<img src="https://img.shields.io/badge/Python-05122A?style=for-the-badge&logo=python">
+<img src="https://img.shields.io/badge/Git-05122A?style=for-the-badge&logo=git">
+</h4>
 
 ### ⭔ Installation
 ---
@@ -48,7 +59,7 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979512791180390460/Screen_Shot_2022-05-27_at_3.39.33_AM.png" />
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979508653205913650/Screen_Shot_2022-05-27_at_3.40.19_AM.png" />
-<img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979508693588660294/Screen_Shot_2022-05-27_at_3.40.11_AM.png" />
+<img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/980448222390652928/Screen_Shot_2022-05-29_at_5.55.48_PM.png" />
 
 
 
