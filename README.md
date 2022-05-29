@@ -1,13 +1,24 @@
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
-                                
 
-### Track User's Smartphone/Pc IP And GPS Location.
+<h4 align="center"> Track User's Smartphone/Pc IP And GPS Location. </h4>
 
 This tool is a Proof of Concept and is for Educational Purposes Only. it shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.
 
-- OS compatibility (or supported operating systems): `Linux, Mac, Windows, Android(Termux)`
+<h4 align="center">
+  OS compatibility :
+  <br><br>
+  <img src="https://img.shields.io/badge/Windows-05122A?style=for-the-badge&logo=windows">
+  <img src="https://img.shields.io/badge/Linux-05122A?style=for-the-badge&logo=linux">
+  <img src="https://img.shields.io/badge/Android-05122A?style=for-the-badge&logo=android">
+  <img src="https://img.shields.io/badge/MacOs-05122A?style=for-the-badge&logo=mac">
+</h4>
 
-- Requirements: `python, git`
+<h4 align="center"> 
+Requirements:
+<br><br>
+<img src="https://img.shields.io/badge/Python-05122A?style=for-the-badge&logo=python">
+<img src="https://img.shields.io/badge/Git-05122A?style=for-the-badge&logo=git">
+</h4>
 
 ### ⭔ Installation
 ---
