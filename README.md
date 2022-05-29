@@ -15,7 +15,7 @@ Using this tool, you can find out what information a malicious website can gathe
 ### Limitation
 ---
 
-- Once location permission is granted, accurate location information is recieved to within 20 to 30 meters of the user's location. 
+- Once location permission is granted, accurate location information is recieved to within 20 to 30 meters of the user's location. ( it's almost exact location)
 
 - It will not work on laptops or phones that have broken GPS, browsers that block javascript, or if the user is mocking the GPS location. 
 
@@ -83,7 +83,3 @@ https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/979508653205913650/Screen_Shot_2022-05-27_at_3.40.19_AM.png" />
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/980448995958722650/Screen_Shot_2022-05-29_at_5.55.48_PM.png" />
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/748888788490780721/980449483684982834/Screen_Shot_2022-05-29_at_6.05.44_PM.png" />
-
-
-
-
