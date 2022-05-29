@@ -8,7 +8,23 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 - IP Address
 - Device Information 
 
-This tool is a Proof of Concept and is for Educational Purposes Only. it shows what info a malicious website can fetch about you and your devices and why you should not click on random links and allow permissions such as Location.
+<h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
+
+Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
+
+### Limitations
+---
+
+- Once location permission is granted, accurate location information is recieved to within 20 to 30 meters of the user's location. 
+
+- It will not work on laptops or phones that have broken GPS, browsers that block javascript, or if the user is mocking the GPS location. 
+
+### How it's different from ip location
+---
+
+- Geographic location based on IP address is NOT accurate and does not provide the location of the target. Instead, it provides the approximate location of the ISP (Internet service provider)
+
+---
 
 <h4 align="center">
   OS compatibility :
