@@ -21,11 +21,7 @@
 
 <h4 align="center"> Track User's Smartphone/Pc Ip And Gps Location. </h4>
 
-The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the location of the target alongwith...
-
-- Gps location(latitude and longitude)
-- IP Address
-- Device Information 
+The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target along with `IP Address` and `Device Information`.
 
 <h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
 
