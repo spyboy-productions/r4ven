@@ -4,7 +4,7 @@
     </a>
     &nbsp;
     <a href="https://spyboy.in/">
-      <img src="https://img.shields.io/badge/-spyboy.in-black?logo=website&style=for-the-badge">
+      <img src="https://img.shields.io/badge/-spyboy.in-black?logo=google&style=for-the-badge">
     </a>
     &nbsp;
     <a href="https://spyboy.blog/">
