@@ -28,6 +28,13 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
 
 ---
+### On link click
+
+```diff
++ it wil automatically fetch ip address and device information
+! if location permission allowed, it will fetch exact location of target.
+```
+
 ### Limitation
 
 ```diff
@@ -40,7 +47,7 @@ Using this tool, you can find out what information a malicious website can gathe
 ### IP location vs GPS location
 
 ```diff
-! Geographic location based on IP address is NOT accurate,
+- Geographic location based on IP address is NOT accurate,
 # Does not provide the location of the target. 
 # Instead, it provides the approximate location of the ISP (Internet service provider)
 ```
