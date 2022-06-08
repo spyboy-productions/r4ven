@@ -27,8 +27,9 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 
 Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
 
-### Limitation
 ---
+### Limitation
+
 ```diff
 
 - It will not work on laptops or phones that have broken GPS, 
@@ -37,7 +38,7 @@ Using this tool, you can find out what information a malicious website can gathe
 ```
 
 ### IP location vs GPS location
----
+
 ```diff
 ! Geographic location based on IP address is NOT accurate,
 # Does not provide the location of the target. 
