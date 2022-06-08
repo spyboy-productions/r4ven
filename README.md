@@ -29,18 +29,25 @@ Using this tool, you can find out what information a malicious website can gathe
 
 ### Limitation
 ---
+```diff
 
-- Once location permission is granted, accurate location information is recieved to within 20 to 30 meters of the user's location. ( it's almost exact location)
-
-- It will not work on laptops or phones that have broken GPS, browsers that block javascript, or if the user is mocking the GPS location. 
+- It will not work on laptops or phones that have broken GPS, 
+# browsers that block javascript, 
+# or if the user is mocking the GPS location. 
+```
 
 ### IP location vs GPS location
 ---
-
-- Geographic location based on IP address is NOT accurate and does not provide the location of the target. Instead, it provides the approximate location of the ISP (Internet service provider)
-
-- GPS fetch almost exact location because it uses longitude and latitude coordinates.
-
+```diff
+! Geographic location based on IP address is NOT accurate and does not provide the location of the target. 
+# Instead, it provides the approximate location of the ISP (Internet service provider)
+```
+```diff
++ GPS fetch almost exact location because it uses longitude and latitude coordinates.
+@@ Once location permission is granted @@
+# accurate location information is recieved to within 20 to 30 meters of the user's location.
+# (it's almost exact location)
+```
 ---
 
 <h4 align="center">
