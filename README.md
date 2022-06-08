@@ -39,7 +39,8 @@ Using this tool, you can find out what information a malicious website can gathe
 ### IP location vs GPS location
 ---
 ```diff
-! Geographic location based on IP address is NOT accurate and does not provide the location of the target. 
+! Geographic location based on IP address is NOT accurate,
+# Does not provide the location of the target. 
 # Instead, it provides the approximate location of the ISP (Internet service provider)
 ```
 ```diff
