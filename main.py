@@ -26,8 +26,9 @@ def get_website():
 
 
 @web_app.post("/location_update")
-def update_location():
+def update_location(data: dict):
     """
     handles the location update of the program from the client side
     """
+    print(data)
     pass

