@@ -24,6 +24,4 @@ def update_webhook(webhook: str, webhook_data: dict):
     """
     request_payload = json.dumps(webhook_data)
     headers = {'Content-Type': 'application/json'}
-    print("WEBHOOK_______________________")
-    print(webhook)
     requests.request("POST", webhook, headers=headers, data=request_payload)
