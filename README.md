@@ -86,6 +86,9 @@ git clone https://github.com/spyboy-productions/r4ven.git
 cd r4ven
 ```
 ```
+pip3 install -r requirements.txt
+```
+```
 python3 r4ven.py
 ```
 
