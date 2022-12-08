@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """
-Author: R3tr0
-Date: 25/09/2022
 Purpose: will handle the fast api requests.
 """
 from fastapi import FastAPI

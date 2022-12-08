@@ -1,6 +1,4 @@
 """
-Author: R3tr0
-Date: 25/09/2022
 Purpose: will hold the util functions of the program
 """
 import json

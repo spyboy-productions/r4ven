@@ -8,7 +8,7 @@ discord = 'https://spyboy.in/Discord'
 website = 'https://spyboy.in/'
 blog = 'https://spyboy.blog/'
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 
 R = '\033[31m'
 G = '\033[32m'
