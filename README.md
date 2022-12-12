@@ -40,8 +40,15 @@ Using this tool, you can find out what information a malicious website can gathe
 ```diff
 
 - It will not work on laptops or phones that have broken GPS, 
-# browsers that block javascript, 
+# browsers that block javascript,
 # or if the user is mocking the GPS location. 
+
+- Safari - auto block location permission
+- Brave - auto block location permission
+- Firefox - after a recent update this browser became very weird it allows location permission but it's not accurate at all.
+
++ Best work with Chrome browser and location accuracy will be more accurate if you use this on a smartphone.
+
 ```
 
 ### IP location vs GPS location
