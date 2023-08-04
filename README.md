@@ -41,7 +41,8 @@ Using this tool, you can find out what information a malicious website can gathe
 
 - It will not work on laptops or phones that have broken GPS, 
 # browsers that block javascript,
-# or if the user is mocking the GPS location. 
+# or if the target is mocking the GPS location.
+# or if a target is using VPN or spoofing IP
 
 - Some browser auto block location permission like(Brave, Safari etc)
 
