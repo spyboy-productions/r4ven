@@ -43,11 +43,10 @@ Using this tool, you can find out what information a malicious website can gathe
 # browsers that block javascript,
 # or if the user is mocking the GPS location. 
 
-- Safari - auto block location permission
-- Brave - auto block location permission
-- Firefox - after a recent update this browser became very weird it allows location permission but it's not accurate at all.
+- Some browser auto block location permission like(Brave, Safari etc)
 
-+ Best work with Chrome browser and location accuracy will be more accurate if you use this on a smartphone.
++ Best work with Chrome browser
++ Location accuracy will be more accurate if you use this on a smartphone.
 
 ```
 
@@ -121,7 +120,7 @@ https://discord.com/
 
 ---
 
-#### ⭓ To port forward install ngrok or use ssh
+#### ⭓ To port forward install ngrok or use ssh or whatever tool you want to port forward with.
 
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
