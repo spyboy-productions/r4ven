@@ -17,7 +17,7 @@
   
 </p>
 
-<img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
+<img width="100%" align="centre" src="https://spyboyblog.files.wordpress.com/2022/05/cream-brown-aesthetic-new-product-skincare-canvas-banner-2.png" />
 
 <h4 align="center"> Track the IP address and GPS location of the user's smartphone or PC and capture a picture of the target, along with device information. </h4>
 
