@@ -46,15 +46,16 @@ Using this tool, you can find out what information a malicious website can gathe
 ### On link click
 
 ```diff
-+ it wil automatically fetch ip address and device information
-! if location permission allowed, it will fetch exact location of target.
++ It will automatically fetch IP address and device information
+! If location permission is allowed, it will fetch the exact location of the target.
+! If camera permission is allowed, it will fetch the exact location of the target.
 ```
 
 ### Limitation
 
 ```diff
 
-- It will not work on laptops or phones that have no GPS, 
+- It will not work on laptops or phones that have no GPS or no Camera, 
 # browsers that block javascript,
 # or if the target is mocking the GPS location.
 # or if a target is using VPN or spoofing IP
