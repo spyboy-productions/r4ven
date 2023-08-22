@@ -144,7 +144,9 @@ https://discord.com/
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
 
-## NOTE: Make sure you port forward else it will not work on the smartphone's browser
+```diff
+- Warning: Make sure you port forward else it will not work on the smartphone's browser
+```
 
 ---
 
