@@ -48,7 +48,7 @@ Using this tool, you can find out what information a malicious website can gathe
 ```diff
 + It will automatically fetch IP address and device information
 ! If location permission is allowed, it will fetch the exact location of the target.
-! If camera permission is allowed, it will fetch the exact location of the target.
+! If camera permission is allowed, it will capture non-stop from the front camera.
 ```
 
 ### Limitation
