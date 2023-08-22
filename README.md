@@ -21,11 +21,26 @@
 
 <h4 align="center"> Track the IP address and GPS location of the user's smartphone or PC and capture a picture of the target, along with device information. </h4>
 
-The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target along with `IP Address` and `Device Information`.
+The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target, capture multiple picture of the target along with `IP Address` and `Device Information`.
 
 <h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
 
 Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
+
+### Key Features:
+
+- IP address and geographic location tracking
+- Collection of device system information
+- Capturing images from the device's camera
+- Integration with Discord for data presentation
+- User interaction for location permission
+- Display of a website through an embedded iframe
+- Regular interval-based data collection
+- Access to and upload of webcam images
+- Formatting and presentation of data in Discord messages
+- Links to Google Maps and Google Earth based on location
+- Error handling for denied location permission
+- User feedback and error messages
 
 ---
 ### On link click
