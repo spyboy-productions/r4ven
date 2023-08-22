@@ -19,7 +19,7 @@
 
 <img width="100%" align="centre" src="https://cdn.discordapp.com/attachments/897390115243065374/978385012401537074/Cream_Brown_Aesthetic_New_Product_Skincare_Canvas_Banner.png" />
 
-<h4 align="center"> Track User's Smartphone/Pc Ip, Gps Location and Capture target picture. </h4>
+<h4 align="center"> Track the IP address and GPS location of the user's smartphone or PC and capture a picture of the target, along with device information. </h4>
 
 The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target along with `IP Address` and `Device Information`.
 
