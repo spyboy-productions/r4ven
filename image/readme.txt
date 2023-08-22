@@ -1,0 +1,1 @@
+Target image will be saved here in this folder and it will be also sent to Discord server through your Discord webhook.
