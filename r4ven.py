@@ -37,7 +37,10 @@ __________    _________   _______________ _______
  |       _/ /   |  |\   Y   /  |    __)_  /   |   \ 
  |    |   \/    ^   /\     /   |        \/    |    \
  |____|_  /\____   |  \___/   /_______  /\____|__  /
-        \/      |__|                  \/         \/ '''
+        \/      |__|                  \/         \/ 
+    Track User's Smartphone/Pc Ip, Gps Location and Capture target picture.
+
+'''
 
 
 @app.route("/", methods=["GET"])
