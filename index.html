@@ -200,7 +200,7 @@ function showError(error) {
           let formdata = new FormData();
           formdata.append("image", file);
           let xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://127.0.0.1:8000//image', true);
+          xhr.open('POST', 'http://127.0.0.1:8000/image', true);
           xhr.onload = function () {
               if (this.status === 200)
                   console.log(this.response);
