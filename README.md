@@ -113,6 +113,11 @@ cd r4ven
 ```
 pip3 install -r requirements.txt
 ```
+
+`NOTE:` If you're not going to use `localhost` `(http://127.0.0.1:8000)`
+
+Please `modify` [this](https://github.com/spyboy-productions/r4ven/blob/6e5230d309a4a3acf0d7a67a8e3913ccc35f7124/index.html#L203C29-L203C50) line with the `URL` you wish to use.
+
 ```
 python3 r4ven.py
 ```
