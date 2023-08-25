@@ -22,6 +22,7 @@ twitter_url = 'https://spyboy.in/twitter'
 discord = 'https://spyboy.in/Discord'
 website = 'https://spyboy.in/'
 blog = 'https://spyboy.blog/'
+github = 'https://github.com/spyboy-productions/r4ven'
 
 VERSION = '1.1.3'
 
