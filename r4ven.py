@@ -107,7 +107,7 @@ def print_banners():
     print(f'{G} ╰➤ {C}Discord      : {W}{discord}')
     print(f'{G} ╰➤ {C}Website      : {W}{website}')
     print(f'{G} ╰➤ {C}Blog         : {W}{blog}')
-    print(f'{G} ╰➤ {Y}Github       : {W}{github}\n')
+    print(f'{G} ╰➤ {C}Github       : {W}{github}\n')
 
 def print_port_forwarding_instructions():
     """
