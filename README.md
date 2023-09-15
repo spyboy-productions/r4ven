@@ -62,14 +62,14 @@ Using this tool, you can find out what information a malicious website can gathe
 # or if the target is mocking the GPS location.
 # or if a target is using VPN or spoofing IP
 
-- Some browser auto block location permission like(Brave, Safari etc)
+- Some browsers auto block location permission like(Brave, Safari etc)
 
 + Best work with Chrome browser
 + Location accuracy will be more accurate if you use this on a smartphone.
 
 ```
 
-### IP location vs GPS location
+### IP location VS. GPS location
 
 ```diff
 - Geographic location based on IP address is NOT accurate,
