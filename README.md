@@ -19,8 +19,6 @@
 
 <img width="100%" align="centre" src="https://spyboyblog.files.wordpress.com/2022/05/cream-brown-aesthetic-new-product-skincare-canvas-banner-2.png" />
 
-<h4 align="center"> Track the IP address and GPS location of the user's smartphone or PC and capture a picture of the target, along with device information. </h4>
-
 The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target, capture multiple pictures of the target along with `IP Address` and `Device Information`.
 
 <h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
