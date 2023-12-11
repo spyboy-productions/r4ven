@@ -153,9 +153,21 @@ https://discord.com/
 
 ---
 
-## Contribution:
+#### Contribution:
 
 Contributions and feature requests are welcome! If you encounter any issues or have ideas for improvement, feel free to open an issue or submit a pull request.
+
+#### ToDo
+
+- port forward directly
+
+Use trycloudflare to give web URL https://try.cloudflare.com/ https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/
+or use these https://tunnelmole.com/ https://github.com/robbie-cahill/tunnelmole-service
+
+- Mask port forwarded URL using our tool Facad1ng
+- Give the option to choose what you want 1. track location 2. camera access 3. just IP and device info 4. all of it
+- PHP code to host a website without Python
+- Iframe can be warned ..make a phishing template 
 
 #### 💬 If having an issue [Chat here](https://discord.gg/ZChEmMwE8d)
 [![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
