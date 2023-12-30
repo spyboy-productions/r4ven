@@ -6,7 +6,6 @@ from utils import get_file_data, update_webhook
 import time
 import requests
 import argparse
-import argparse
 
 parser = argparse.ArgumentParser(
     description="R4VEN - Track device location, and IP address, and capture a photo with device details.",
