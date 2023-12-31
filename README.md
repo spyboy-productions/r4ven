@@ -112,12 +112,17 @@ cd r4ven
 pip3 install -r requirements.txt
 ```
 
-`NOTE:` If you're not going to use `localhost` `(http://127.0.0.1:8000)`
+`NOTE:` If you're not going to use `localhost` `(http://127.0.0.1:8000/image)`
 
-Please `modify` [this](https://github.com/spyboy-productions/r4ven/blob/6e5230d309a4a3acf0d7a67a8e3913ccc35f7124/index.html#L203C29-L203C50) line with the `URL` you wish to use.
+Please use the `-t` flag to choose a different url.
+
+Use the following command to make r4ven executable:
 
 ```
-python3 r4ven.py
+chmod +x r4ven.py
+```
+```
+python3 r4ven.py [-t target] [-p port]
 ```
 
 ```Enter your discord webhook URL (set up a channel in your discord server with webhook integration)```
