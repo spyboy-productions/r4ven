@@ -203,9 +203,10 @@ Contributions and feature requests are appreciated. If you encounter any issues 
 ### ⭔ Snapshots
 ---
 
-<img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/sadas.png" />
+<img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/r4ven_1.1.4.png" />
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/sdas.png" />
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/dasdas.png" />
+<img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/image_cap.png" />
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/wdad.png" />
 
 <h4 align="center"> If you find this GitHub repo useful, please consider giving it a star! ⭐️ </h4> 
