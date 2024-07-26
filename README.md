@@ -27,7 +27,7 @@ Using this tool, you can find out what information a malicious website can gathe
 
 ### Key Features:
 
-- IP address and geographic location tracking
+- IP address and GPS location tracking
 - Collection of device system information
 - Capturing images from the device's camera
 - Integration with Discord for data presentation
@@ -158,10 +158,22 @@ https://discord.com/
 
 ---
 
-#### ⭓ To port forward install ngrok or use ssh or whatever tool you want to port forward with.
+#### port forwarding.
 
-- For ngrok port forward type: ngrok http 8000
-- For ssh port forwarding type: ssh -R 80:localhost:8000 ssh.localhost.run
+- It automatically port forwards with Serveo, but you can choose to use your preferred method for port forwarding.
+- The default port is 8000 or any port you specified.
+
+⭓ Other cmd to port-forward...
+
+TryCloudflare: `cloudflared tunnel --url http://localhost:8000`
+
+Tunnelmole: `tmole 8000`
+
+Ngrok: `ngrok http 8000`
+
+Ssh: `ssh -R 80:localhost:8000 ssh.localhost.run`
+
+Serveo: `ssh -R 80:localhost:8000 serveo.net`
 
 ```diff
 - Warning: Make sure you port forward else it will not work on the smartphone's browser
@@ -175,15 +187,9 @@ Contributions and feature requests are welcome! If you encounter any issues or h
 
 #### 😴🥱😪💤 ToDo:
 
-- port forward directly
-
-Use trycloudflare to give web URL https://try.cloudflare.com/ https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/
-or use these https://tunnelmole.com/ https://github.com/robbie-cahill/tunnelmole-service
-
 - Mask port forwarded URL using our tool Facad1ng
-- Give the option to choose what you want 1. track location 2. camera access 3. just IP and device info 4. all of it
 - PHP code to host a website without Python
-- Iframe can be warned ..make a phishing template 
+- Iframe can be warned ..make a phishing template or bypass the iframe warning.
 
 #### 💬 If having an issue [Chat here](https://discord.gg/ZChEmMwE8d)
 [![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
