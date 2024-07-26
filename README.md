@@ -132,7 +132,7 @@ chmod +x r4ven.py
 python3 r4ven.py [-t target] [-p port]
 ```
 
-**Example:** `python3 r4ven.py -t https://replit.com/myproject/images -p 8080`
+**Example:** `python3 r4ven.py -t https://example.com/r4ven/images -p 8000`
 
 ---
 
@@ -158,7 +158,7 @@ https://discord.com/
 
 ---
 
-#### port forwarding.
+#### ⭓ port forwarding:
 
 - It automatically port forwards with Serveo, but you can choose to use your preferred method for port forwarding.
 - The default port is 8000 or any port you specified.
@@ -183,7 +183,7 @@ Serveo: `ssh -R 80:localhost:8000 serveo.net`
 
 #### Contribution:
 
-Contributions and feature requests are welcome! If you encounter any issues or have ideas for improvement, feel free to open an issue or submit a pull request.
+Contributions and feature requests are appreciated. If you encounter any issues or have ideas for improvement, feel free to open an issue or submit a pull request.
 
 #### 😴🥱😪💤 ToDo:
 
