@@ -1,4 +1,14 @@
 <h4 align="center"> If you find this GitHub repo useful, please consider giving it a star! ⭐️ </h4> 
+
+<h4 align="center"> Watch Youtube Video - How To Use!</h4> 
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=6eV3FAXSUSU">
+    <img src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/R4ven_Thumbnail.png" alt="Watch the video" style="width: 100%; max-width: 600px;">
+  </a>
+</div>
+
+---
+
 <p align="center">
     <a href="https://spyboy.in/twitter">
       <img src="https://img.shields.io/badge/-TWITTER-black?logo=twitter&style=for-the-badge">
