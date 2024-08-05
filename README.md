@@ -197,9 +197,17 @@ Serveo: `ssh -R 80:localhost:8000 serveo.net`
 
 ---
 
+#### ⭓ Mask URL to make it look legit
+
+- Use one of our tools [Facad1ng](https://github.com/spyboy-productions/Facad1ng) it is An open-source URL masking tool designed to help you Hide Phishing URLs and make them look legit using social engineering techniques.
+
+---
+
 #### Contribution:
 
 Contributions and feature requests are appreciated. If you encounter any issues or have ideas for improvement, feel free to open an issue or submit a pull request.
+
+---
 
 #### 😴🥱😪💤 ToDo:
 
@@ -207,11 +215,14 @@ Contributions and feature requests are appreciated. If you encounter any issues 
 - PHP code to host a website without Python
 - Iframe can be warned ..make a phishing template or bypass the iframe warning.
 
+---
+
 #### 💬 If having an issue [Chat here](https://discord.gg/ZChEmMwE8d)
 [![Discord Server](https://discord.com/api/guilds/726495265330298973/embed.png)](https://discord.gg/ZChEmMwE8d)
 
-### ⭔ Snapshots
 ---
+
+### ⭔ Snapshots
 
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/r4ven_1.1.4.png" />
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/sdas.png" />
