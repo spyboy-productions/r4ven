@@ -199,7 +199,7 @@ Serveo: `ssh -R 80:localhost:8000 serveo.net`
 
 #### ⭓ Mask URL to make it look legit
 
-- Use one of our tools [Facad1ng](https://github.com/spyboy-productions/Facad1ng) it is An open-source URL masking tool designed to help you Hide Phishing URLs and make them look legit using social engineering techniques.
+- Use one of our tools [Facad1ng](https://github.com/spyboy-productions/Facad1ng) it is An open-source URL masking tool designed to help you Mask URLs and make them look legit using social engineering techniques.
 
 ---
 
