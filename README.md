@@ -2,7 +2,7 @@
 
 <h4 align="center"> ▶️ Watch Youtube Video - How To Use!</h4> 
 <div align="center">
-  <a href="https://www.youtube.com/watch?v=6eV3FAXSUSU">
+  <a href="https://odysee.com/@spyboy:b/R4ven">
     <img src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/R4ven_Thumbnail.png" alt="Watch the video" style="width: 100%; max-width: 600px;">
   </a>
 </div>
