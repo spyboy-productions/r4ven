@@ -68,17 +68,12 @@ Using this tool, you can find out what information a malicious website can gathe
 ### Limitation
 
 ```diff
-
-- Make sure you port forward else it will not work on the smartphone's browser
-# Most browsers auto block extra permissions for ip based URL. so port forward!!
 - It will not work on laptops or phones that have no GPS or no Camera, 
 # browsers that block javascript,
 # or if the target is mocking the GPS location.
 # or if a target is using VPN or spoofing IP
 
 - Some browsers auto block location permission like(Brave, Safari etc)
-
-+ Best work with Chrome browser
 + Location accuracy will be more accurate if you use this on a smartphone.
 
 ```
@@ -200,7 +195,7 @@ Ssh: `ssh -R 80:localhost:8000 ssh.localhost.run`
 Serveo: `ssh -R 80:localhost:8000 serveo.net`
 
 ```diff
-- Warning: Make sure you port forward else it will not work on the smartphone's browser
+- Make sure you port forward else it will not work on the smartphone's browser
 ```
 
 ---
