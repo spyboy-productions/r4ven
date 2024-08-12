@@ -131,9 +131,8 @@ pip3 install -r requirements.txt
 python3 r4ven.py
 ```
 
-`NOTE:` If you're not going to use `localhost` `(http://127.0.0.1:8000/image)`
-
-Please `modify` [this](https://github.com/spyboy-productions/r4ven/blob/6e5230d309a4a3acf0d7a67a8e3913ccc35f7124/index.html#L203C29-L203C50) line with the `URL` you wish to use.
+`NOTE:` If you're not going to use `localhost`
+- choose module(all, cam, ip, gps), open file `index.html` replace `"http://127.0.0.1:8000/image"` with the `URL` you wish to use.
 
 OR
 
@@ -144,6 +143,15 @@ Use the following command to make r4ven executable:
 ```
 chmod +x r4ven.py
 ```
+- To change the Image URL use 
+```
+python3 r4ven.py [-t target]
+```
+- To change Port
+```
+python3 r4ven.py [-p port]
+```
+- For Both Image-URL and port
 ```
 python3 r4ven.py [-t target] [-p port]
 ```
@@ -170,7 +178,7 @@ https://discord.com/
 
 #### ⭓ To change website template
 
-- open file `index.html` on line 12 and replace the `src` in the iframe. (Note: not every website support iframe)
+- choose module(all, cam, ip, gps), open file `index.html` replace the `src` in the iframe. (Note: not every website supports iframe)
 
 ---
 
