@@ -208,7 +208,7 @@ def print_banners():
     print(f'____________________________________________________________________________\n')
 
     log_file_path = os.path.abspath(log_file)
-    print(f"\n{B}[*] {Y}Logs are being saved in the file located at:{W} {log_file_path}")
+    print(f"{B}[+] {Y}Logs are being saved in the file located at:{W} {log_file_path}")
 
     print(f'\n{B}[!] {R}Note:{G}Track info will be sent to your discord webhook {W}')
     print(f'____________________________________________________________________________\n')
