@@ -9,6 +9,7 @@ from utils import get_file_data, update_webhook
 import time
 import requests
 import argparse
+import random
 
 # Set up logging
 log_file = "r4ven.log"
@@ -19,7 +20,6 @@ HTML_FILE_NAME = "index.html"
 
 twitter_url = 'https://spyboy.in/twitter'
 discord = 'https://spyboy.in/Discord'
-website = 'https://spyboy.in/'
 blog = 'https://spyboy.blog/'
 github = 'https://github.com/spyboy-productions/r4ven'
 
@@ -36,54 +36,28 @@ if sys.stdout.isatty():
 else:
     R = G = C = W = Y = M = B = ''
 
-banner3 = r'''
-Track info will be sent to your discord webhook
-      ----
-(\__/) || 
-(•ㅅ•) || 
-/ 　 づ
+placeholders = [f'{R}', f'{G}', f'{C}', f'{Y}', f'{M}', f'{B}']
+sc = random.choice(placeholders)
 
-'''
-
-'''
+if sys.stdout.isatty():
+    sys.stdout.reconfigure(encoding='utf-8')
+    banner = rf'''{sc}                                                    
                     _.:._
                   ."\ | /".
-.,__              "=.\:/.="              __,.
- "=.`"=._            /^\            _.="`.="
-   ".'.'."=.=.=.=.-,/   \,-.=.=.=.=".'.'."
-     `~.`.`.`.`.`.`.     .'.'.'.'.'.'.~`
-        `~.`` ` `.`.\   /.'.' ' ''.~`
-   R4ven   `=.-~~-._ ) ( _.-~~-.=`
+{R}.,__{G}              "=.\:/.="              {R}__,.
+ {R}"=.`"=._{G}            /^\            {R}_.="`.="
+   ".'.'."{B}=.=.=.=.-,/   \,-{B}.=.=.=.=".{sc}'.'."
+     `~.`.{M}`.`.`.`.`.     .'.'.'.'.'.'{sc}.~`
+        `~.`` {M}` `{sc}.`.\   /.'{M}.' ' ''{sc}.~`
+   {G}R4ven{sc}   `=.-~~-._ ) ( _.-~~-.=`
                     `\ /`
                      ( )
                       Y
-
-__________    _________   _______________ _______   
-\______   \  /  |  \   \ /   /\_   _____/ \      \  
- |       _/ /   |  |\   Y   /  |    __)_  /   |   \ 
- |    |   \/    ^   /\     /   |        \/    |    \
- |____|_  /\____   |  \___/   /_______  /\____|__  /
-        \/      |__|                  \/         \/ 
-'''
-
-banner = rf'''{G}                                                    
-                    _.:._
-                  ."\ | /".
-{R}.,__{W}              "=.\:/.="              {R}__,.
- {Y}"=.`"=._{W}            /^\            {Y}_.="`.="
-   ".'.'."{B}=.=.=.=.-,/   \,-{B}.=.=.=.=".{W}'.'."
-     `~.`.{M}`.`.`.`.`.     .'.'.'.'.'.'{W}.~`
-        `~.`` {M}` `{W}.`.\   /.'{M}.' ' ''{W}.~`
-   {G}R4ven{W}   `=.-~~-._ ) ( _.-~~-.=`
-                    `\ /`
-                     ( )
-                      Y
-____________________________________________________________________________
 
 {R}Track{W} {G}GPS location{W}, and {G}IP address{W}, and {G}capture photos{W} with {G}device details{W}.
-____________________________________________________________________________
-
 '''
+else:
+    banner = ''
 
 app = Flask(__name__)
 
@@ -225,18 +199,18 @@ def print_banners():
     prints the program banners
     """
     print(f'{R}{banner}{W}')
-    print(f'{G}[+] {C}Version      : {W}{VERSION}')
-    print(f'{G}[+] {C}Created By   : {W}Spyboy')
-    print(f'{G} ╰ {C}Twitter       : {W}{twitter_url}')
-    print(f'{G} ╰ {C}Discord       : {W}{discord}')
-    print(f'{G} ╰ {C}Website       : {W}{website}')
-    print(f'{G} ╰ {C}Blog          : {W}{blog}')
-    print(f'{G} ╰ {C}Github        : {W}{github}\n')
+    print(f'{G}[+] {C}Version     : {W}{VERSION}')
+    print(f'{G}[+] {C}Created By  : {W}Spyboy')
+    print(f'{G}[+] {C}Twitter     : {W}{twitter_url}')
+    print(f'{G}[+] {C}Discord     : {W}{discord}')
+    print(f'{G}[+] {C}Blog        : {W}{blog}')
+    print(f'{G}[+] {C}Github      : {W}{github}')
+    print(f'____________________________________________________________________________\n')
 
     log_file_path = os.path.abspath(log_file)
     print(f"\n{B}[+] {Y}Logs are being saved in the file located at:{W} {log_file_path}")
 
-    print(f'{G}{banner3}{W}')
+    print(f'\n{B}[!] {R}Note:{G}Track info will be sent to your discord webhook {W}')
 
 def main():
     print_banners()
