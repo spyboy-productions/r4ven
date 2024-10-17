@@ -10,6 +10,7 @@ import time
 import requests
 import argparse
 import random
+import re
 
 # Set up logging
 log_file = "r4ven.log"
