@@ -161,12 +161,20 @@ def ask_port_forwarding():
 
 def check_and_get_webhook_url(folder_name):
     file_path = os.path.join(folder_name, DISCORD_WEBHOOK_FILE_NAME)
-    
+
+    # Regular expression to match valid Discord webhook URLs
+    webhook_regex = re.compile(
+        r'^https://discord\.com/api(/v\d+)?/webhooks/\d+/[A-Za-z0-9_-]+/?$'
+    )
+
+    def is_valid_webhook(url):
+        return webhook_regex.match(url) is not None
+
     def get_valid_webhook():
         while True:
             print(f'\n{B}[+] {C}Enter Discord Webhook URL:{W}')
             dwebhook_input = input().strip()
-            if dwebhook_input.startswith("https://discord.com/api/webhooks/"):
+            if is_valid_webhook(dwebhook_input):
                 with open(file_path, 'w') as file:
                     file.write(dwebhook_input)
                 return dwebhook_input
@@ -178,7 +186,7 @@ def check_and_get_webhook_url(folder_name):
     else:
         with open(file_path, 'r') as file:
             webhook_url = file.read().strip()
-            if webhook_url.startswith("https://discord.com/api/webhooks/"):
+            if is_valid_webhook(webhook_url):
                 return webhook_url
             else:
                 print(f"{R}Invalid webhook URL found in file. Please enter a valid Discord webhook URL.{W}")
