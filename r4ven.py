@@ -165,8 +165,8 @@ def check_and_get_webhook_url(folder_name):
 
     # Regular expression to match valid Discord webhook URLs
     webhook_regex = re.compile(
-        r'^https://discord\.com/api(/v\d+)?/webhooks/\d+/[A-Za-z0-9_-]+/?$'
-    )
+    r'^https://(discord(app)?\.com)/api(/v\d+)?/webhooks/\d+/[A-Za-z0-9_-]+/?$')
+    
 
     def is_valid_webhook(url):
         return webhook_regex.match(url) is not None
