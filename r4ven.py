@@ -158,7 +158,7 @@ def ask_port_forwarding():
     print(f"{B}[~] {C}Do you want to use Serveo for port forwarding?{W}\n")
     print(f"{Y}1. {W}Yes")
     print(f"{Y}2. {W}No, I will use another method")
-    print(f"\n{M}Note: {W}In windows {R}Serveo.net{W} might not work, use option 2 and port forward using tool like Ngrok or install WSL2 and some linux distro from windows store and then run the tool using their terminal.")
+    print(f"\n{M}Note: {W}In windows {R}Serveo.net{W} might not work, use option 2 and port forward using tool like Ngrok\n or install WSL2 and some linux distro from windows store and then run the tool using their terminal.")
     choice = input(f"\n{B}[+] {Y}Enter the number corresponding to your choice: {W}")
     return choice
 
@@ -250,7 +250,7 @@ def main():
         port_forwarding_thread.start()
     else:
         print(f'____________________________________________________________________________\n')
-        print(f"{R}Warning: {W}Port forwarding is necessary for the application to work on other devices. Make sure to set it up using another method."
+        print(f"{R}Warning: {W}Port forwarding is necessary for the application to work on other devices.\n Make sure to set it up using another method."
            f"{Y}ngrok, cloudflare, localhost.run etc.{W}")
         print(f'____________________________________________________________________________\n')
     
