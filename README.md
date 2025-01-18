@@ -41,9 +41,12 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 <p align="center">
 <a href="https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/spyboy-productions/r4ven&tutorial=README.md"><img src="https://user-images.githubusercontent.com/27065646/92304704-8d146d80-ef80-11ea-8c29-0deaabb1c702.png" alt="Open in Cloud Shell" height="40" ></a>
 
-<h4 align="center"> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
+> [!IMPORTANT]
+> <h4> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
+> Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
 
-Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
+> [!CAUTION] 
+> **Please use this responsibly and ethically.**
 
 ### Key Features:
 
