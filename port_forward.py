@@ -187,7 +187,7 @@ def ask_port_forwarding():
     print(f'____________________________________________________________________________\n')
     print(f"{B}[~] {C}Choose port forwarding?{W}\n")
     print(f"{Y}1. {W}serveo ({R}{serveo_status}{W})")
-    print(f"{Y}2. {W}cloudflare {G}(recommended)
+    print(f"{Y}2. {W}cloudflare {G}(recommended)")
     print(f"{Y}3. {W}None, I will use another method")
     print(f"\n{M}Note:{R} If 1,2 does not work..{W}Use option {G}3{W} and port forward manually using tool like Ngrok\n")
     choice = input(f"\n{B}[+] {Y}Enter the number corresponding to your choice: {W}")
