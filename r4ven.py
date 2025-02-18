@@ -43,7 +43,7 @@ def main():
         print(f"{B}[?] {Y}Port : {W} {args.port} is already in use.{R} Please select another port.", "error")
         sys.exit(1)
 
-    print(f"{B}[!] {Y}Port : {W} {args.port} {G} is available.{W}")
+    #print(f"{B}[!] {Y}Port : {W} {args.port} {G} is available.{W}")
     print(f'____________________________________________________________________________\n')
 
     choice = get_user_choice()
