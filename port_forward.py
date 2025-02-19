@@ -9,7 +9,7 @@ import requests
 import argparse
 import re
 import time
-from flaredantic import FlareTunnel, TunnelConfig
+from flaredantic import FlareTunnel, FlareConfig
 from flask import Flask, request, Response, send_from_directory
 import signal
 from utils import get_file_data, update_webhook, check_and_get_webhook_url
@@ -117,17 +117,13 @@ signal.signal(signal.SIGINT, signal_handler)
 # Cloudflare tunnel with non-blocking handling
 def run_tunnel():
     try:
-        config = TunnelConfig(
+        config = FlareConfig(
             port=args.port,
             verbose=True  # Enable logging for debugging
         )
         with FlareTunnel(config) as tunnel:
             print(f"{G}[+] Flask app available at: {C}{tunnel.tunnel_url}{W}")
-            # Run Flask app in a thread
-            flask_thread = threading.Thread(target=app.run, kwargs={"port": args.port, "debug": False})
-            flask_thread.daemon = True
-            flask_thread.start()
-
+            
             # Keep the main thread running to monitor the shutdown flag
             while not shutdown_flag.is_set():
                 time.sleep(0.5)
