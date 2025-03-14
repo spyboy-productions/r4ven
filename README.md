@@ -60,7 +60,6 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 - Display of a website through an embedded iframe
 - Regular interval-based data collection
 - Access to and upload webcam images
-- Formatting and presentation of data in Discord messages
 - Links to Google Maps and Google Earth based on location
 - Error handling for denied location permission
 - User feedback and error messages
