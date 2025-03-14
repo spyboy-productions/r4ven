@@ -55,6 +55,7 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 - IP address and GPS location tracking
 - Collection of device system information
 - Capturing images from the device's camera
+- Inbuilt port forwarding
 - Integration with Discord for data presentation
 - User interaction for location permission
 - Display of a website through an embedded iframe
