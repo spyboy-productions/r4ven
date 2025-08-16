@@ -52,16 +52,7 @@ def main():
         print(f"{R}Invalid choice. Exiting.{W}")
         sys.exit(1)
     
-    if choice == '1':
-        folder_name = 'gps'
-    elif choice == '2':
-        folder_name = 'cam'
-    elif choice == '3':
-        folder_name = 'ip'
-    elif choice == '4':
-        folder_name = 'all'
-
-    check_and_get_webhook_url(folder_name)
+    check_and_get_webhook_url()
 
     port_forwarding_choice = ask_port_forwarding()
     if port_forwarding_choice == '1':
@@ -81,7 +72,7 @@ def main():
     print(f"\n{start_message}\n")
     logging.info(start_message)
 
-    run_flask(folder_name)
+    run_flask(choice)
 
 if __name__ == "__main__":
     main()

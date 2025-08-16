@@ -5,7 +5,7 @@ import os
 import re
 import sys
 
-DISCORD_WEBHOOK_FILE_NAME = "dwebhook.js"
+DISCORD_WEBHOOK_FILE_NAME = "webhook.txt"
 
 if sys.stdout.isatty():
     R = '\033[31m'  # Red
@@ -37,8 +37,8 @@ def update_webhook(webhook: str, webhook_data: dict):
     headers = {'Content-Type': 'application/json'}
     requests.request("POST", webhook, headers=headers, data=request_payload)
 
-def check_and_get_webhook_url(folder_name):
-    file_path = os.path.join(folder_name, DISCORD_WEBHOOK_FILE_NAME)
+def check_and_get_webhook_url():
+    file_path = DISCORD_WEBHOOK_FILE_NAME
 
     # Regular expression to match valid Discord webhook URLs
     webhook_regex = re.compile(
