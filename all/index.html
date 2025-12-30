@@ -16,10 +16,46 @@
   <!-- Image pixel tracking (works even with JS disabled) -->
   <img src="/track" width="1" height="1" style="display:none;" alt="">
 
-  <iframe src="https://www.meetskip.com/chat" width="100%" height="900" style="border:none;">
+  <!-- Parameterized iframe - loads from configuration -->
+  <iframe id="dynamic-iframe" width="100%" height="900" style="border:none; display:none;">
   </iframe>
 
   <p id="demo"></p>
+  
+  <script>
+    // Get iframe URL from query parameter or server config
+    function getIframeUrl() {
+      // Check URL query parameter first (?iframe=URL)
+      const params = new URLSearchParams(window.location.search);
+      const queryUrl = params.get('iframe');
+      
+      if (queryUrl) {
+        return decodeURIComponent(queryUrl);
+      }
+      
+      // Fallback: get from server config
+      return fetch('/config/iframe-url')
+        .then(response => response.json())
+        .then(data => data.url || 'https://www.youtube.com/')
+        .catch(() => 'https://www.youtube.com/');
+    }
+    
+    // Initialize iframe with parameterized URL
+    async function initializeIframe() {
+      const url = await getIframeUrl();
+      const iframe = document.getElementById('dynamic-iframe');
+      iframe.src = url;
+      // Uncomment to show iframe: iframe.style.display = 'block';
+      console.log('Iframe URL loaded from config:', url);
+    }
+    
+    // Load iframe when page is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeIframe);
+    } else {
+      initializeIframe();
+    }
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
   </script>
   <script>

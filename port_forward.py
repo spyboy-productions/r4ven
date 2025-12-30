@@ -129,6 +129,20 @@ def status_check():
         "timestamp": datetime.now().isoformat()
     }), 200
 
+@app.route("/config/iframe-url", methods=["GET"])
+def get_iframe_config():
+    """Return configured iframe URL - can be overridden via environment variable"""
+    # Default iframe URL
+    default_url = "https://www.youtube.com/"
+    
+    # Check environment variable first
+    iframe_url = os.environ.get('IFRAME_URL', default_url)
+    
+    return jsonify({
+        "url": iframe_url,
+        "source": "env" if os.environ.get('IFRAME_URL') else "default"
+    }), 200
+
 @app.route("/", methods=["GET"])
 def get_website():
     html_data = ""

@@ -63,6 +63,14 @@ def main():
 
     check_and_get_webhook_url(folder_name)
 
+    # Ask for iframe URL
+    iframe_url = input(f"\n{B}[+] {Y}Enter iframe URL (default: https://www.youtube.com/): {W}").strip()
+    if iframe_url:
+        os.environ['IFRAME_URL'] = iframe_url
+        print(f"{G}[✓] {C}Iframe URL set to: {W}{iframe_url}")
+    else:
+        print(f"{G}[✓] {C}Using default iframe URL: {W}https://www.youtube.com/")
+
     port_forwarding_choice = ask_port_forwarding()
     if port_forwarding_choice == '1':
         port_forwarding_thread = threading.Thread(target=start_port_forwarding)
