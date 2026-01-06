@@ -36,7 +36,7 @@
 
 This project is a security research and awareness tool designed to demonstrate how modern web browsers may expose **location data, camera access, IP address, and device information** when users explicitly grant permissions.
 
-The tool serves a controlled web page that embeds legitimate content for demonstration purposes. When a user voluntarily allows browser permissions, the application collects available metadata such as **GPS coordinates, IP information, device details, and camera input**, highlighting how social engineering and permission misuse can lead to unintended data exposure.
+The tool hosts a `fake website` which uses an `iframe` to display a `legit website` and, if the `target allows` it, it will `fetch` the `Gps location` (latitude and longitude) of the target, `capture multiple pictures` of the target along with `IP Address` and `Device Information`.
 
 This project is intended for **security education, awareness training, and authorized testing only**, helping developers, penetration testers, and users better understand browser permission risks and improve privacy hygiene.
 
