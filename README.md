@@ -34,7 +34,12 @@
 
 <img width="100%" align="centre" src="https://github.com/spyboy-productions/r4ven/blob/main/snapshots/dsad.png" />
 
-The tool hosts a fake website which uses an iframe to display a legit website and, if the target allows it, it will fetch the Gps location `(latitude and longitude)` of the target, capture multiple pictures of the target along with `IP Address` and `Device Information`.
+This project is a security research and awareness tool designed to demonstrate how modern web browsers may expose **location data, camera access, IP address, and device information** when users explicitly grant permissions.
+
+The tool serves a controlled web page that embeds legitimate content for demonstration purposes. When a user voluntarily allows browser permissions, the application collects available metadata such as **GPS coordinates, IP information, device details, and camera input**, highlighting how social engineering and permission misuse can lead to unintended data exposure.
+
+This project is intended for **security education, awareness training, and authorized testing only**, helping developers, penetration testers, and users better understand browser permission risks and improve privacy hygiene.
+
 
 <h4 align="center"> 🚀 Run Online Free On Google Shell 🚀</h4> 
 
@@ -42,13 +47,16 @@ The tool hosts a fake website which uses an iframe to display a legit website an
 <a href="https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/spyboy-productions/r4ven&tutorial=README.md"><img src="https://user-images.githubusercontent.com/27065646/92304704-8d146d80-ef80-11ea-8c29-0deaabb1c702.png" alt="Open in Cloud Shell" height="40" ></a>
 
 > [!IMPORTANT]
-> <h4> This tool is a Proof of Concept and is for Educational Purposes Only. </h4> 
-> Using this tool, you can find out what information a malicious website can gather about you and your devices and why you shouldn't click on random links or grant permissions like Location to them.
+> **Proof of Concept — Educational Use Only**
+>
+> This project demonstrates how malicious websites may collect **location data, camera access, IP addresses, and device information** when users grant browser permissions.
+> It is intended to raise awareness about privacy risks and highlight why users should avoid clicking untrusted links or approving unnecessary permissions.
 
-> [!CAUTION] 
-> **Please use this responsibly and ethically.**
-> <h4> DISCLAIMER </h4> 
-> It is possible to use R4ven for nefarious purposes. It merely illustrates what adept attackers are capable of. Defenders have a responsibility to consider such attacks and protect their users from them. Using R4ven should only be done with the written permission of the targeted parties for legitimate penetration testing assignments.
+> [!CAUTION]
+> **Ethical & Authorized Use Only**
+>
+> While this tool illustrates real-world attacker techniques, it must be used strictly for **education, security research, and authorized penetration testing**.
+> Any use without the explicit permission of the affected parties is strongly discouraged.
 
 ### Key Features:
 
